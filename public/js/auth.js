@@ -1,3 +1,4 @@
+import { validator } from "./utils/authValidators.js"
 $(document).ready(function(){
     initFormSlideAnims()
     initTacModal()
@@ -91,12 +92,7 @@ function onRegister(){
     password: $('#password').val()
   }, 'register')
   if(Object.values(errors).some(error => error !== '')){
-    Object.entries(errors).forEach(([key, value]) => {
-       if(value !== ''){                                                    // If there are errors get the key (input name) and value (error message)
-        $(`#${key}`).addClass('error').effect("shake", {times: 4}, 700)    // attach class error to give the input red borders and then add
-        $(`#${key}-error`).text(value).slideDown("fast")                  // shake animation while giving the error span, the value as text 
-       }
-    })
+    visualizeErrors(errors)
   }else {
     $('.action-success').modal({          // On success show the JQuery Modal plugin with fade animation
         fadeDuration: 150
@@ -130,21 +126,15 @@ function onRegister(){
             'z-index': 1
         })
     })
-    onAccordionsPageInit()
   }
 }
 function onLogin(){
     let errors = validator({
-    'username-login': $('#username-login').val(),
+    'email-login': $('#email-login').val(),
     'password-login': $('#password-login').val()
     }, 'login')
     if(Object.values(errors).some(error => error !== '')){
-        Object.entries(errors).forEach(([key, value]) => {
-            if(value !== ''){
-        $(`#${key}`).addClass('error').effect("shake", {times: 4}, 700)
-        $(`#${key}-error`).text(value).slideDown("fast")
-       }
-    })
+        visualizeErrors(errors)
  }else {
     $('.action-success').css({display: 'block'}).modal({
         fadeDuration: 150
@@ -176,8 +166,6 @@ function onLogin(){
             'z-index': 1
         })
     })
-
-    onAccordionsPageInit()
  }
 }
 function initToolTips(){
@@ -253,41 +241,41 @@ function initAddMediaLinkBtnsAndInput(){
     })
 }
 
-function validator(inputValues, action){
-    // Validator function, checks if there are empty fields and for unlawful chars in email or if password has atleast 1 letter and num in it 
-    let errors = {}
-    let isThereEmptyFields = checkForEmptyFields(action) // 
-    if(isThereEmptyFields){return errors}
-    let emailValRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    let passwordValRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-    if(action === 'register'){
-        errors.username = inputValues.username.length > 4 ? '' : 'Username must be at least 4 characters long!'
-        errors.email = emailValRegex.test(inputValues.email) ? '' : 'Please enter a valid email !'
-        errors.password = inputValues.password.length > 6 && passwordValRegex.test(inputValues.password) 
-        ? '' 
-        : 'Password must be at least 6 characters long and contain at least one letter and one number !'
-    }else if (action === 'login'){
-        errors["username-login"] = inputValues["username-login"].length > 4 ? '' : 'Username must be at least 4 characters long!'
-        errors["password-login"] = inputValues["password-login"].length > 6 && passwordValRegex.test(inputValues["password-login"]) 
-        ? '' 
-        : 'Password must be at least 6 characters long and contain at least one letter and one number !'
-    }
+// function validator(inputValues, action){
+//     // Validator function, checks if there are empty fields and for unlawful chars in email or if password has atleast 1 letter and num in it 
+//     let errors = {}
+//     let isThereEmptyFields = checkForEmptyFields(action) // 
+//     if(isThereEmptyFields){return errors}
+//     let emailValRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+//     let passwordValRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+//     if(action === 'register'){
+//         errors.username = inputValues.username.length > 4 ? '' : 'Username must be at least 4 characters long!'
+//         errors.email = emailValRegex.test(inputValues.email) ? '' : 'Please enter a valid email !'
+//         errors.password = inputValues.password.length > 6 && passwordValRegex.test(inputValues.password) 
+//         ? '' 
+//         : 'Password must be at least 6 characters long and contain at least one letter and one number !'
+//     }else if (action === 'login'){
+//         errors["username-login"] = inputValues["username-login"].length > 4 ? '' : 'Username must be at least 4 characters long!'
+//         errors["password-login"] = inputValues["password-login"].length > 6 && passwordValRegex.test(inputValues["password-login"]) 
+//         ? '' 
+//         : 'Password must be at least 6 characters long and contain at least one letter and one number !'
+//     }
 
-    return errors
+//     return errors
 
-    function checkForEmptyFields(action){
-        let isThereEmptyFields = false;
-        Object.entries(inputValues).forEach(([key, value]) => {
-            if(value === ''){
-                action === 'register' 
-                ? errors[key] = `Please fill the required ${key} field !` 
-                : errors[key] = `Please fill the required ${key.split('-')[0]} field !` 
-                isThereEmptyFields = true
-            }
-        })
-        return isThereEmptyFields
-    }
-} 
+//     function checkForEmptyFields(action){
+//         let isThereEmptyFields = false;
+//         Object.entries(inputValues).forEach(([key, value]) => {
+//             if(value === ''){
+//                 action === 'register' 
+//                 ? errors[key] = `Please fill the required ${key} field !` 
+//                 : errors[key] = `Please fill the required ${key.split('-')[0]} field !` 
+//                 isThereEmptyFields = true
+//             }
+//         })
+//         return isThereEmptyFields
+//     }
+// } 
 
 function clearErrorOnFocus(){
     // removes error class when focusing on input and sets the error message span text as empty string while sliding it up
@@ -309,4 +297,13 @@ function clearAllErrors(){
             $(`#${$(this).attr('id')}-error`).slideUp('slow')
         }
     })
+}
+
+function visualizeErrors(errors){
+    Object.entries(errors).forEach(([key, value]) => {
+        if(value !== ''){                                                    // If there are errors get the key (input name) and value (error message)
+         $(`#${key}`).addClass('error').effect("shake", {times: 4}, 700)    // attach class error to give the input red borders and then add
+         $(`#${key}-error`).text(value).slideDown("fast")                  // shake animation while giving the error span, the value as text 
+        }
+     })
 }

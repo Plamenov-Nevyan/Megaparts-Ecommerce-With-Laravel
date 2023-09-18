@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-    <script src="{{asset('js/auth.js')}}"></script>
+    <script src="{{asset('js/auth.js')}}" type="module"></script>
     <title>Megaparts-Auth</title>
 </head>
 <body>
@@ -19,9 +19,9 @@
                 <h2>Sign in to your account.</h2>
             </div>
             <fieldset class="input-field">
-                <input class="user-data-input" type="text" id="username-login" name="username-login"/>
-                <label for="username-login"> Username: </label>
-                <span class="error-message" id="username-login-error"></span>
+                <input class="user-data-input" type="text" id="email-login" name="email-login"/>
+                <label for="email-login"> Email: </label>
+                <span class="error-message" id="email-login-error"></span>
             </fieldset>
             <fieldset class="input-field">
                 <input class="user-data-input" type="password" id="password-login" name="password-login"/>
