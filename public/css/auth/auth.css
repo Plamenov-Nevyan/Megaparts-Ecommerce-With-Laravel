@@ -1,0 +1,396 @@
+body {
+  position: relative;
+  display: flex;
+  min-width: 100svw;
+  min-height: 100svh;
+  overflow: hidden;
+  gap: 2em;
+  background: linear-gradient(-45deg, #ffeb3b, #74efff, #9c27b0);
+  background-size: 400% 400%;
+  animation: gradient-bg 20s ease infinite;
+}
+
+.forms-page {
+  position: relative;
+  display: flex;
+  min-width: 100svw;
+  min-height: 100svh;
+  overflow: hidden;
+  gap: 2em;
+}
+.forms-page .tac-section {
+  display: none;
+  max-height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.forms-page .tac-section ul li {
+  font-size: 1.8rem;
+}
+.forms-page .action-success {
+  display: none;
+  min-height: 10vh;
+}
+.forms-page .action-success #success-check {
+  top: 0.3em;
+  right: -2em;
+  position: absolute;
+  z-index: 10;
+  width: 1em;
+  height: 1em;
+}
+.forms-page .form-el {
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  min-width: 30vw;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  padding: 2em;
+  background: #eee;
+  border-radius: 0.7em;
+  justify-content: center;
+}
+.forms-page .form-el fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  position: relative;
+}
+.forms-page .form-el fieldset input {
+  padding: 0.6em 0.5em;
+  border: none;
+}
+.forms-page .form-el fieldset input.error {
+  border: 2px solid red;
+  border-radius: 0.6em;
+}
+.forms-page .form-el fieldset .error-message {
+  display: none;
+  color: red;
+}
+.forms-page .form-el fieldset input:focus + label,
+.forms-page .form-el fieldset input + label.static {
+  transform: translateY(-1em);
+}
+.forms-page .form-el fieldset label {
+  padding: 0 0.4em;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: transform 200ms ease;
+  pointer-events: none;
+}
+.forms-page .form-el .btn {
+  max-width: 30%;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: ease-in-out 200ms;
+}
+.forms-page .login-form {
+  background-color: #15172B;
+}
+@media only screen and (max-width: 350px) {
+  .forms-page .login-form {
+    transform: translate(-30%, -20%);
+  }
+}
+@media only screen and (max-width: 768px) {
+  .forms-page .login-form {
+    transform: translate(-20%, -20%);
+  }
+}
+.forms-page .login-form .heading h2 {
+  color: azure;
+}
+.forms-page .login-form p {
+  color: azure;
+}
+.forms-page .login-form p span {
+  color: orchid;
+  cursor: pointer;
+}
+.forms-page .login-form p span svg {
+  max-width: 1em;
+  max-height: 1em;
+  fill: orchid;
+  display: none;
+}
+.forms-page .login-form p span:hover {
+  text-decoration: underline;
+}
+.forms-page .login-form p span:hover svg {
+  display: inline;
+}
+.forms-page .login-form fieldset input {
+  background-color: transparent;
+  color: azure;
+  outline: none;
+  border-bottom: 2px solid azure;
+  opacity: 0.3;
+}
+.forms-page .login-form fieldset input:focus {
+  opacity: 1;
+}
+.forms-page .login-form fieldset label {
+  color: azure;
+}
+.forms-page .login-form #login-btn {
+  background: linear-gradient(to left, rgb(212, 251, 63) 32%, rgb(252, 176, 70) 68%);
+  background-size: 200% 100%;
+  background-position: left bottom;
+  transition: ease-in-out 200ms;
+  transition: all 600ms ease;
+}
+@media only screen and (max-width: 576px) {
+  .forms-page .login-form #login-btn {
+    max-width: 100%;
+  }
+}
+.forms-page .login-form #login-btn:hover {
+  background-position: right bottom;
+}
+.forms-page .register-form {
+  opacity: 0;
+  top: 0;
+  left: 65%;
+  gap: 1em;
+}
+@media only screen and (max-width: 768px) {
+  .forms-page .register-form {
+    left: 80%;
+    max-width: 90vw;
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .forms-page .register-form {
+    left: 85.5%;
+  }
+}
+@media only screen and (max-width: 470px) {
+  .forms-page .register-form {
+    left: 100%;
+  }
+}
+@media only screen and (max-width: 350px) {
+  .forms-page .register-form {
+    left: 137%;
+  }
+}
+.forms-page .register-form .heading h2 {
+  color: #6658D3;
+}
+.forms-page .register-form .social-media .media-list {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-evenly;
+  gap: 1em;
+}
+.forms-page .register-form .social-media .media-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  flex: 0 1 33%;
+}
+.forms-page .register-form .social-media .media-list li .icon-and-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+}
+.forms-page .register-form .social-media .media-list li .icon-and-add-btn svg {
+  max-width: 2em;
+  max-height: 2em;
+}
+.forms-page .register-form .social-media .media-list li .icon-and-add-btn svg:last-child {
+  cursor: pointer;
+  fill: cornflowerblue;
+}
+.forms-page .register-form .social-media .media-list li .label-and-input.zoomed {
+  animation-name: zoomIn;
+  animation-duration: 1s;
+}
+.forms-page .register-form .social-media .media-list li .label-and-input.outzoomed {
+  animation-name: zoomOut;
+  animation-duration: 1s;
+}
+.forms-page .register-form .social-media .media-list li .label-and-input {
+  position: relative;
+  display: none;
+  width: 100%;
+  height: 20%;
+}
+.forms-page .register-form .social-media .media-list li .label-and-input svg {
+  max-width: 2em;
+  max-height: 2em;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  padding: 0.5em;
+  border-radius: 50%;
+}
+.forms-page .register-form .social-media .media-list li .label-and-input svg:hover {
+  background: #c8c8c8;
+}
+.forms-page .register-form .social-media .media-list li .label-and-input input {
+  padding: 0.6em 0.5em;
+  border: none;
+  border-radius: 0.6em;
+  outline: none;
+}
+.forms-page .register-form .social-media .media-list li .label-and-input input:focus + label,
+.forms-page .register-form .social-media .media-list li .label-and-input input + label.static {
+  transform: translateY(-1em);
+}
+.forms-page .register-form .social-media .media-list li .label-and-input label {
+  padding: 0 0.4em;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: transform 200ms ease;
+  pointer-events: none;
+}
+.forms-page .register-form .social-media .media-list li .tooltip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4em;
+  max-height: 2em;
+  width: 100%;
+  background-color: rgb(250, 174, 75);
+  position: relative;
+  border-radius: 0.6em;
+  display: none;
+}
+.forms-page .register-form .social-media .media-list li .tooltip span {
+  display: block;
+  color: azure;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+.forms-page .register-form .social-media .media-list li .tooltip::before {
+  content: " ";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 5%;
+  margin-left: -23px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(250, 174, 75) transparent transparent transparent;
+  height: 0%;
+  transform: rotate(180deg);
+}
+.forms-page .register-form .social-media .media-list li:first-child .icon-and-input .icon-and-add-btn svg:first-child {
+  fill: cornflowerblue;
+}
+.forms-page .register-form .social-media .media-list li:nth-child(2) .icon-and-input .icon-and-add-btn svg:first-child {
+  fill: #d6249f;
+}
+.forms-page .register-form .social-media .media-list li:last-child .icon-and-input .icon-and-add-btn svg:first-child {
+  fill: blue;
+}
+.forms-page .register-form fieldset label {
+  color: cornflowerblue;
+}
+.forms-page .register-form fieldset input {
+  background-color: transparent;
+  color: black;
+  outline: none;
+  border-bottom: 2px solid cornflowerblue;
+  opacity: 0.3;
+}
+.forms-page .register-form fieldset input:focus {
+  opacity: 1;
+}
+.forms-page .register-form p {
+  color: cornflowerblue;
+}
+.forms-page .register-form p span {
+  color: orchid;
+  cursor: pointer;
+}
+.forms-page .register-form p span svg {
+  fill: orchid;
+  max-width: 1em;
+  max-height: 1em;
+  display: none;
+}
+.forms-page .register-form p span:hover {
+  text-decoration: underline;
+}
+.forms-page .register-form p span:hover svg {
+  display: inline;
+}
+.forms-page .register-form #register-btn {
+  background: linear-gradient(to left, rgb(63, 251, 135) 32%, rgba(252, 70, 199, 0.9276960784) 68%);
+  background-size: 200% 100%;
+  background-position: left bottom;
+  transition: ease-in-out 200ms;
+  transition: all 600ms ease;
+}
+@media only screen and (max-width: 470px) {
+  .forms-page .register-form #register-btn {
+    max-width: 100%;
+  }
+}
+.forms-page .register-form #register-btn:hover {
+  background-position: right bottom;
+}
+.forms-page .register-form .tac-span {
+  font-size: 1.2rem;
+  font-style: italic;
+  display: block;
+  margin: 0 auto;
+}
+.forms-page .register-form .tac-span .open-dialog-span {
+  color: orchid;
+  cursor: pointer;
+}
+.forms-page .register-form .tac-span .open-dialog-span:hover {
+  text-decoration: underline;
+}
+
+@keyframes gradient-bg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes zoomIn {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+@keyframes zoomOut {
+  0% {
+    transform: scale(2);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}/*# sourceMappingURL=auth.css.map */

@@ -38,4 +38,10 @@ class RegisteredUserController extends Controller
 
         return response()->noContent();
     }
+
+    
+    public function showAuthForms()
+    {
+        return view('auth');
+    }
 }
