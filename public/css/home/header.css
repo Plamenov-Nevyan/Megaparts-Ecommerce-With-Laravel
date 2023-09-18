@@ -1,0 +1,161 @@
+.site-header {
+  min-width: 100%;
+}
+.site-header .header-top {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  background: #16242E;
+}
+.site-header .header-top .logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto 0;
+}
+.site-header .header-top .search-container {
+  margin: auto 0;
+  flex: 0 1 20%;
+  position: relative;
+}
+.site-header .header-top .search-container svg {
+  position: absolute;
+  width: 1.4em;
+  right: 0;
+  top: 0.5em;
+  fill: white;
+}
+.site-header .header-top .search-container input {
+  width: 95%;
+  padding: 0.5em 1em;
+  border-radius: 2em;
+  outline: none;
+  background: transparent;
+  border: 2px solid #056FBC;
+  color: white;
+}
+.site-header .header-top input[type=checkbox] {
+  display: none;
+}
+.site-header .header-top .contacts-nav {
+  flex: 0 1 32%;
+}
+.site-header .header-top .contacts-nav .contacts-nav-links {
+  display: flex;
+  list-style-type: none;
+  gap: 0.1em;
+  align-items: center;
+}
+.site-header .header-top .contacts-nav .contacts-nav-links li {
+  padding: 1em;
+}
+.site-header .header-top .contacts-nav .contacts-nav-links li a {
+  color: white;
+}
+.site-header .header-top .contacts-nav .contacts-nav-links li a svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+.site-header .header-top .contacts-nav .contacts-nav-links li:first-child {
+  background: #008AEE;
+  border-radius: 50%;
+  max-height: 0.8em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.site-header .header-top .contacts-nav .contacts-nav-links li:nth-child(2) a svg {
+  fill: red;
+}
+.site-header .header-top .contacts-nav .contacts-nav-links li:nth-child(3) a svg a svg {
+  fill: #008AEE;
+}
+.site-header .header-top .contacts-nav .contacts-nav-links li:nth-child(4) a {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}
+.site-header .header-top .contacts-nav .contacts-nav-links li:nth-child(4) a svg {
+  fill: darkgreen;
+  font-weight: bold;
+}
+.site-header .header-top .hamburger-btn {
+  display: none;
+  align-items: center;
+  gap: 0.4em;
+  padding: 1em;
+  fill: white;
+}
+.site-header .header-top .hamburger-btn svg {
+  width: 2em;
+  fill: white;
+}
+.site-header .header-top .hamburger-btn:hover {
+  cursor: pointer;
+}
+.site-header .header-bottom {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #1C2D3A;
+  align-items: center;
+}
+.site-header .header-bottom .header-bottom-nav-left {
+  padding: 1em;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links {
+  display: flex;
+  list-style-type: none;
+  gap: 0.4em;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links li {
+  display: flex;
+  border-radius: 5em;
+  padding: 0.2em 0.5em;
+  align-items: center;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links li:first-child {
+  background-color: #008AEE;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links li:nth-child(2) {
+  background-color: #F2992F;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links li:nth-child(3) {
+  background-color: #2CCACA;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links li:nth-child(4) {
+  background-color: #33BB5A;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links li:nth-child(5) {
+  background-color: #BD5FE9;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links li:last-child {
+  background-color: #EE4700;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links a {
+  text-transform: uppercase;
+  color: white;
+}
+.site-header .header-bottom .header-bottom-nav-left .nav-left-links a svg {
+  width: 1em;
+  height: 1em;
+  fill: white;
+}
+.site-header .header-bottom .header-bottom-nav-right {
+  padding: 1em;
+}
+.site-header .header-bottom .header-bottom-nav-right .nav-right-links {
+  display: flex;
+  list-style-type: none;
+  gap: 1em;
+  align-items: center;
+}
+.site-header .header-bottom .header-bottom-nav-right .nav-right-links li:first-child {
+  background-color: #F5A636;
+  border-radius: 4em;
+  padding: 0.6em 0.6em;
+}
+.site-header .header-bottom .header-bottom-nav-right .nav-right-links a svg {
+  width: 1em;
+  height: 1em;
+  fill: white;
+}/*# sourceMappingURL=header.css.map */

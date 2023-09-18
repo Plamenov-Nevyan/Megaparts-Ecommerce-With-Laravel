@@ -1,0 +1,30 @@
+.quick-search-section {
+    max-height: 264px;
+    background-color: #008AEE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .filters-wrapper {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        max-width: 50%;
+        .heading-container {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            svg {
+                max-width: 2em;
+                max-height: 2em;
+            }
+        }
+        .search-form {
+            display: flex;
+            align-items: center;
+            gap: 2em;
+        }
+        .labels-container {
+            display: flex;
+        }
+    }
+}

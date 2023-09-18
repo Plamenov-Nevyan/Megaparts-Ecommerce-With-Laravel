@@ -1,0 +1,30 @@
+.quick-search-section {
+  max-height: 264px;
+  background-color: #008AEE;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.quick-search-section .filters-wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  max-width: 50%;
+}
+.quick-search-section .filters-wrapper .heading-container {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+.quick-search-section .filters-wrapper .heading-container svg {
+  max-width: 2em;
+  max-height: 2em;
+}
+.quick-search-section .filters-wrapper .search-form {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
+.quick-search-section .filters-wrapper .labels-container {
+  display: flex;
+}/*# sourceMappingURL=quickSearchSection.css.map */
