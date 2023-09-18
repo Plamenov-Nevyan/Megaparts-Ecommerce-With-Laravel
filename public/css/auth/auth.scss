@@ -52,7 +52,7 @@ body {
         min-height: 50vh;
         display: flex;
         flex-direction: column;
-        gap: 2em;
+        gap: 1em;
         padding: 2em;
         background: #eee;
         border-radius: 0.7em;
@@ -82,8 +82,8 @@ body {
             label {
                 padding: 0 .4em;
                 position: absolute;
-                left: 0;
-                top: 0;
+                left: 0.5em;
+                top: 1em;
                 transition: transform 200ms ease;
                 pointer-events: none;
             }
@@ -101,6 +101,7 @@ body {
     
     .login-form {
         background-color: #15172B;
+        top: 5%;
         @include sm {
             transform: translate(-30%, -20%);
         }
@@ -165,7 +166,9 @@ body {
         opacity: 0;
         top: 0;
         left: 65%;
-        gap: 1em;
+        gap: 0;
+        max-height: 80vh;
+        justify-content: flex-start;
         @include lg {
             left: 80%;
             max-width: 90vw;

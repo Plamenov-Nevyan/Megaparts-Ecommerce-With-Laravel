@@ -47,7 +47,7 @@ body {
   min-height: 50vh;
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 1em;
   padding: 2em;
   background: #eee;
   border-radius: 0.7em;
@@ -79,8 +79,8 @@ body {
 .forms-page .form-el fieldset label {
   padding: 0 0.4em;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 0.5em;
+  top: 1em;
   transition: transform 200ms ease;
   pointer-events: none;
 }
@@ -95,6 +95,7 @@ body {
 }
 .forms-page .login-form {
   background-color: #15172B;
+  top: 5%;
 }
 @media only screen and (max-width: 350px) {
   .forms-page .login-form {
@@ -160,7 +161,9 @@ body {
   opacity: 0;
   top: 0;
   left: 65%;
-  gap: 1em;
+  gap: 0;
+  max-height: 80vh;
+  justify-content: flex-start;
 }
 @media only screen and (max-width: 768px) {
   .forms-page .register-form {
