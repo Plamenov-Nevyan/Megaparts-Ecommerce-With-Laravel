@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 Route::view('/', "home");
 
 Route::get('/login', [RegisteredUserController::class, 'showAuthForms'])->name('login');
+Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');
 
 require __DIR__.'/auth.php';
 

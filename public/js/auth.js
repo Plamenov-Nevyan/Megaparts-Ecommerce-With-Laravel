@@ -1,4 +1,6 @@
 import { validator } from "./utils/authValidators.js"
+import { registerUser, loginUser } from "./services/authServices.js"
+
 $(document).ready(function(){
     initFormSlideAnims()
     initTacModal()
@@ -63,7 +65,7 @@ function initTacModal(){
         })
     })
 }
-function initFloatingLabels(){
+ function initFloatingLabels(){
     // By using the transform: scaleY rule for class static in the css, here we assign the class to a label after we check if it's
     // corresponding input have text in it or not using the change event
     $('.input-field').each(function(){
@@ -84,7 +86,7 @@ function initFloatingLabels(){
         })
     })
 }
-function onRegister(){
+async function onRegister(){
   let errors = validator({                // Validate and check for errors by passing the form input values
     username: $('#username').val(),
     email: $('#email').val(),
@@ -107,28 +109,26 @@ function onRegister(){
         $('#success-message').text('')   // before the modal is close, clear the success message so it can be used if the user 
     })                                  // logouts later and then enter again
 
-    $('.action-success').on($.modal.AFTER_CLOSE, () => {
-        $('.forms-page').animate({           // Just like forms here we use opacity and margin to create and slide up/fade in  effect
-            opacity: 0,                      // between the forms and accordions pages                   
-            marginTop: '-300px'
-        },
-        'slow',                     
-        'linear',
-        )
-        $('.accordions-page').animate({
-            opacity: 1,
-            marginTop: '0'
-        },
-        'slow',
-        'linear'
-        )
-        .css({
-            'z-index': 1
-        })
-    })
+    let userData = {
+        username: $('#username').val(),
+        email: $('#email').val(),
+        phone: $('#phone').val(),
+        password: $('#password').val(),
+    }
+    let token = $('meta[name="csrf-token"]').attr('content')
+    if($('#twitter-link').val() !== ''){
+        userData = {...userData, twitterLink: $('#twitter-link').val()}
+    }
+    if($('#instagram-link').val() !== ''){
+        userData = {...userData, instagramLink: $('#instagram-link').val()}
+    }
+    if($('#facebook-link').val() !== ''){
+        userData = {...userData, facebookLink: $('#facebook-link').val()}
+    }
+    await registerUser(userData, token)
   }
 }
-function onLogin(){
+async function onLogin(){
     let errors = validator({
     'email-login': $('#email-login').val(),
     'password-login': $('#password-login').val()
@@ -147,25 +147,14 @@ function onLogin(){
     $('.success-action').on($.modal.BEFORE_CLOSE, () => {
         $('#success-message').text('')
     })
-    $('.action-success').on($.modal.AFTER_CLOSE, () => {
-        $('.forms-page').animate({
-            opacity: 0,
-            marginTop: '-300px'
+    let token = $('meta[name="csrf-token"]').attr('content')
+    await loginUser(
+        {
+            email: $('#email').val(),
+            password: $('#password').val()
         },
-        'slow',
-        'linear',
-        )
-        $('.accordions-page').animate({
-            opacity: 1,
-            marginTop: '0'
-        },
-        'slow',
-        'linear'
-        )
-        .css({
-            'z-index': 1
-        })
-    })
+        token
+    )
  }
 }
 function initToolTips(){
