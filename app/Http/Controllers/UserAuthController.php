@@ -18,14 +18,12 @@ class UserAuthController extends Controller
             'username' => $userData["username"],
             'email' => $userData["email"],
             'phone' => $userData["phone"],
-            'password' => $userData["password"],
+            'password' => $hashedPassword,
             'twitter_link' => $twitterLink,
             'instagram_link' => $instagramLink,
             'facebook_link' => $facebookLink 
         ]);
-         $response = json_encode(['userId' => $user["id"], 'userRole' => $user["userRole"]], 201);
-        
+        $response = json_encode(['url' => 'catalog']);
         return $response;
-        return redirect()->route('catalog');
     }
 }

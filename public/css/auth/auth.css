@@ -95,6 +95,7 @@ body {
 }
 .forms-page .login-form {
   background-color: #15172B;
+  display: none;
   top: 5%;
 }
 @media only screen and (max-width: 350px) {
@@ -113,20 +114,20 @@ body {
 .forms-page .login-form p {
   color: azure;
 }
-.forms-page .login-form p span {
+.forms-page .login-form p a {
   color: orchid;
   cursor: pointer;
 }
-.forms-page .login-form p span svg {
+.forms-page .login-form p a svg {
   max-width: 1em;
   max-height: 1em;
   fill: orchid;
   display: none;
 }
-.forms-page .login-form p span:hover {
+.forms-page .login-form p a:hover {
   text-decoration: underline;
 }
-.forms-page .login-form p span:hover svg {
+.forms-page .login-form p a:hover svg {
   display: inline;
 }
 .forms-page .login-form fieldset input {
@@ -158,9 +159,9 @@ body {
   background-position: right bottom;
 }
 .forms-page .register-form {
-  opacity: 0;
+  display: none;
   top: 0;
-  left: 65%;
+  left: 25%;
   gap: 0;
   max-height: 80vh;
   justify-content: flex-start;
@@ -319,20 +320,20 @@ body {
 .forms-page .register-form p {
   color: cornflowerblue;
 }
-.forms-page .register-form p span {
+.forms-page .register-form p a {
   color: orchid;
   cursor: pointer;
 }
-.forms-page .register-form p span svg {
+.forms-page .register-form p a svg {
   fill: orchid;
   max-width: 1em;
   max-height: 1em;
   display: none;
 }
-.forms-page .register-form p span:hover {
+.forms-page .register-form p a:hover {
   text-decoration: underline;
 }
-.forms-page .register-form p span:hover svg {
+.forms-page .register-form p a:hover svg {
   display: inline;
 }
 .forms-page .register-form #register-btn {

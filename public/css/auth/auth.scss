@@ -101,6 +101,7 @@ body {
     
     .login-form {
         background-color: #15172B;
+        display: none;
         top: 5%;
         @include sm {
             transform: translate(-30%, -20%);
@@ -115,7 +116,7 @@ body {
         }
         p {
             color: azure;
-            span {
+            a {
                 color: orchid;
                 cursor: pointer;
                 svg {
@@ -125,7 +126,7 @@ body {
                     display: none;
                 }
             }
-            span:hover {
+            a:hover {
                 text-decoration: underline;
                 svg {
                     display: inline;
@@ -163,9 +164,9 @@ body {
     }
     
     .register-form {
-        opacity: 0;
+        display: none;
         top: 0;
-        left: 65%;
+        left: 25%;
         gap: 0;
         max-height: 80vh;
         justify-content: flex-start;
@@ -343,7 +344,7 @@ body {
         }
         p {
             color: cornflowerblue;
-            span {
+            a {
                 color: orchid;
                 cursor: pointer;
                 svg {
@@ -353,7 +354,7 @@ body {
                     display: none;
                 }
             }
-            span:hover {
+            a:hover {
                 text-decoration: underline;
                 svg {
                     display: inline;

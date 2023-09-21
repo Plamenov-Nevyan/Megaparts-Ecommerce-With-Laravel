@@ -1,8 +1,15 @@
 import { validator } from "./utils/authValidators.js"
-import { registerUser, loginUser } from "./services/authServices.js"
+import { registerUser, redirectToLoginPage } from "./services/authServices.js"
 
 $(document).ready(function(){
-    initFormSlideAnims()
+    $('.register-form').show(
+        'slide',
+        {direction: 'right'},
+    'slow',
+    function(){
+        $(this).css({'display' : 'flex'})
+    }
+    )
     initTacModal()
     initFloatingLabels()
     initToolTips()
@@ -10,52 +17,10 @@ $(document).ready(function(){
     clearErrorOnFocus()
 
 $('#register-btn').click(onRegister)
-$('#login-btn').click(onLogin)
-
 })
 
+$('#redirect-login').click(redirectToLoginPage())
 
-
-function initFormSlideAnims(){
-    // Initiate animations for forms when switching between register and login, uses opacity and margin properties to create fade-in
-    // sliding effect and also clear error messages  
-    $('#redirect-register').click(function(){
-        clearAllErrors()
-        $('.login-form').animate({
-            opacity: 0,
-            marginLeft: '-300px'
-        },
-        'slow',
-        'linear',
-        )
-        $('.register-form').animate({
-            opacity: 1,
-            marginLeft: '-450px'
-        },
-        'slow',
-        'linear'
-        )
-    })
- 
-    $('#redirect-login').click(function(){
-        clearAllErrors()
-        $('.register-form').animate({
-            opacity: 0,
-            marginLeft: '400px'
-        },
-        'slow',
-        'linear'
-        )
-
-        $('.login-form').animate({
-            opacity: 1,
-            marginLeft: '0'
-        },
-        'slow',
-        'linear'
-        )
-    })
-}
 
 function initTacModal(){
     // using the JQuery Modal plugin, here we show the Terms and Conditions section by clicking the span in, the register form
@@ -115,7 +80,8 @@ async function onRegister(){
         phone: $('#phone').val(),
         password: $('#password').val(),
     }
-    let token = $('meta[name="csrf-token"]').attr('content')
+    let token = $('input[name="_token"]').val()
+
     if($('#twitter-link').val() !== ''){
         userData = {...userData, twitterLink: $('#twitter-link').val()}
     }
@@ -128,35 +94,7 @@ async function onRegister(){
     await registerUser(userData, token)
   }
 }
-async function onLogin(){
-    let errors = validator({
-    'email-login': $('#email-login').val(),
-    'password-login': $('#password-login').val()
-    }, 'login')
-    if(Object.values(errors).some(error => error !== '')){
-        visualizeErrors(errors)
- }else {
-    $('.action-success').css({display: 'block'}).modal({
-        fadeDuration: 150
-    })
-    $('#success-check').effect('bounce', {times: 3}, 500)
-    setTimeout(() => {
-        $('#success-message').text('Login is successfull !')
-    }, 1000)
 
-    $('.success-action').on($.modal.BEFORE_CLOSE, () => {
-        $('#success-message').text('')
-    })
-    let token = $('meta[name="csrf-token"]').attr('content')
-    await loginUser(
-        {
-            email: $('#email').val(),
-            password: $('#password').val()
-        },
-        token
-    )
- }
-}
 function initToolTips(){
     // find the tooltips for every media icon and attach mouse-enter and mouse-leave events to them allowing them to slide-in/out when the
     // user hovers over the icons

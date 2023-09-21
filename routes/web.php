@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
@@ -15,9 +15,11 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 */
 
 Route::view('/', "home");
-
-Route::get('/login', [RegisteredUserController::class, 'showAuthForms'])->name('login');
+Route::post('/signUp', [UserAuthController::class,'registerUser'])->middleware('guest');
+Route::get('/login', [RegisteredUserController::class, 'showLoginForm'])->name('login');
+Route::get('/register', [RegisteredUserController::class, 'showRegisterForm'])->name('register');
 Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');
+// Route::post('/ulogin', [UserAuthController::class, 'registerUser']);
 
 require __DIR__.'/auth.php';
 

@@ -40,8 +40,12 @@ class RegisteredUserController extends Controller
     }
 
     
-    public function showAuthForms(){
-        return view('auth');
+    public function showLoginForm(){
+        return view('login');
+    }
+
+    public function showRegisterForm(){
+        return view('register');
     }
 
     public function showCatalog(){
