@@ -15,6 +15,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 */
 
 Route::view('/', "home");
+Route::group(['middleware' => 'web'], function(){
+    Route::post('/logout', [UserAuthController::class, 'logoutUser'])->name('logout');
+});
 Route::post('/signUp', [UserAuthController::class,'registerUser'])->middleware('guest');
 Route::get('/login', [RegisteredUserController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [RegisteredUserController::class, 'showRegisterForm'])->name('register');

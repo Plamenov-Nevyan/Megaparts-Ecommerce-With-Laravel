@@ -27,8 +27,15 @@ export async function loginUser(userData, token){
     authOperations.createSession(session)
 }
 
-export async function logoutUser(){
-     authOperations.clearSession
+export async function logoutUser(token){
+    let resp =  await fetch('/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "X-CSRF-TOKEN": token
+        },
+    })
+   window.location.href = 'login'
 }
 
 export async function redirectToLoginPage(){

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserAuthController extends Controller
@@ -23,7 +24,16 @@ class UserAuthController extends Controller
             'instagram_link' => $instagramLink,
             'facebook_link' => $facebookLink 
         ]);
+        session(['userId' => $user->id, 'userRole' => $user->userRole]);
         $response = json_encode(['url' => 'catalog']);
+        return $response;
+    }
+
+    public function logoutUser(Request $request){
+        Auth::logout();
+        session()->flush();
+        $response = json_encode(['url' => 'login']);
+        $response->header('Content-Type: application/json');
         return $response;
     }
 }
