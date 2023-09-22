@@ -21,6 +21,7 @@ Route::group(['middleware' => 'web'], function(){
     Route::post('/signUp', [UserAuthController::class,'registerUser'])->middleware('guest');
     Route::post('/signIn', [UserAuthController::class,'loginUser'])->middleware('guest');
     Route::post('/createProduct', [ProductController::class, 'createNewProduct'])->middleware('auth');
+    Route::get('/getAllProducts', [ProductController::class, 'getProducts'])->middleware('auth');
 });
 Route::get('/login', [RegisteredUserController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [RegisteredUserController::class, 'showRegisterForm'])->name('register');

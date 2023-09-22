@@ -1334,6 +1334,37 @@ h1 {
         }
   }
 }
+
+// Products Section 
+
+.products{
+    flex: 1 1 60%;
+    display: grid;
+    grid-template-columns: minmax(20em, 20em) 2fr 2fr;
+    grid-gap: 2em;
+    padding: 1em;
+    .card {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        gap: 1em;
+        img {
+            width: 100%;
+            height: auto;
+        }
+        .card-bottom{
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+            align-items: center;
+            h6{
+                color: #33BB5A;
+            }
+        }
+    }
+}
   
 
   

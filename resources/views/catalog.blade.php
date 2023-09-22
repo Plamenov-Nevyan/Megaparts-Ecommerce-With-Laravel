@@ -163,7 +163,7 @@
         </div>
     </header>
     <section class="products">
-
+    
     </section>
     <div id="create-offer-modal" class="modal">
         <div class="modal-content">

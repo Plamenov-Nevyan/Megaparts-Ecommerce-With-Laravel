@@ -11,3 +11,9 @@ export const createProduct = async (productData, token) => {
     let data = await resp.json()
     return data.productId
 }
+
+export const getProducts = async () => {
+    let resp = await fetch('/getAllProducts')
+    let products = await resp.json()
+    return products
+}

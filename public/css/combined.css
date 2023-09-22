@@ -1305,4 +1305,33 @@ h1 {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.products {
+  flex: 1 1 60%;
+  display: grid;
+  grid-template-columns: minmax(20em, 20em) 2fr 2fr;
+  grid-gap: 2em;
+  padding: 1em;
+}
+.products .card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  gap: 1em;
+}
+.products .card img {
+  width: 100%;
+  height: auto;
+}
+.products .card .card-bottom {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+.products .card .card-bottom h6 {
+  color: #33BB5A;
 }/*# sourceMappingURL=combined.css.map */

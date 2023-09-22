@@ -1,17 +1,25 @@
 import { logoutUser } from "./services/authServices.js"
 import { createValidator } from "./utils/createValidators.js"
-import { createProduct } from "./services/productServices.js"
+import { createProduct, getProducts } from "./services/productServices.js"
 
-$(document).ready(function(){
-    initFloatingLabels()
+$(document).ready(async function(){
+    let products = await getProductsForCatalog()
+    if(products.length > 0){
+        generateProductSectionContent(products)
+    }else {
+        let noProductsMessage = $('<h1>No products for sale yet...</h1>')
+        $('.products').append(noProductsMessage)
+    }
     $('#logout-form').on('submit', async function(e){
         e.preventDefault()
         await logoutUser($('input[name="_token"]').val())
     })
-
+    
     $('#create-offer').on('click', function(e){
         e.preventDefault()
+        initFloatingLabels()
         $('#create-offer-modal').css({'display' : 'block'})
+        initCloseModalFunc()
         $('.create-form').on('submit', function(e){
             e.preventDefault()
             let productData = {
@@ -66,4 +74,34 @@ function visualizeErrors(errors){
          $(`#${key}-error`).text(value).slideDown("fast")                  // shake animation while giving the error span, the value as text 
         }
      })
+}
+
+function initCloseModalFunc(){
+    $('.close').on('click', function(){
+        $('#create-offer-modal').css({'display': 'none'})
+    })
+}
+
+async function getProductsForCatalog(){
+    let products = await getProducts()
+    return products
+}
+
+function generateProductSectionContent(products){
+    products.forEach(product => {
+        let productCard = $(`
+        <div class="card" id=${product.id}>
+            <img src="${product.image}" />
+            <div class="card-bottom">
+                <h5>${product.name}</h5>
+                <h6>${product.price} лв.</h6>
+            </div>
+        </div>
+        `)
+        $(productCard).on('click', function(e){
+            localStorage.setItem('productId', product.id)
+            window.location.href='details'
+        })
+        $('.products').append(productCard)
+    })
 }

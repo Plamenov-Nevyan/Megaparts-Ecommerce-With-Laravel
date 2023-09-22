@@ -20,4 +20,9 @@ class ProductController extends Controller {
         $response = json_encode(["productId" => $product->id]);
         return $response;
     }
+
+    public function getProducts(){
+        $products = Product::orderBy('created_at', 'desc')->get();
+        return response()->json($products);
+    }
 }
