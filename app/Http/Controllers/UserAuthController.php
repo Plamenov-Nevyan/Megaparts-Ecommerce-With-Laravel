@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserAuthController extends Controller
 {
+   
     public function registerUser(Request $request){
         $userData = $request->all();
         $twitterLink = isset($userData["twitterLink"] ) ? $userData["twitterLink"] :  '';
@@ -28,10 +29,33 @@ class UserAuthController extends Controller
         $response = json_encode(['url' => 'catalog']);
         return $response;
     }
+    public function loginUser (Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if(Auth::attempt($credentials))
+        {
+            $user = Auth::user();
+            $request->session()->put('userId', $user->id);
+            $request->session()->put('userRole', $user->userRole);
+            $request->session()->regenerate();
+            // return redirect()->route('catalog')
+            //     ->withSuccess('You have successfully logged in!');
+        }
+
+        return back()->withErrors([
+            'email' => 'Your provided credentials do not match in our records.',
+        ])->onlyInput('email');
+
+    } 
 
     public function logoutUser(Request $request){
         Auth::logout();
-        session()->flush();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         $response = json_encode(['url' => 'login']);
         $response->header('Content-Type: application/json');
         return $response;

@@ -15,7 +15,7 @@ export const registerUser = async (userData, token) => {
 }
 
 export async function loginUser(userData, token){
-    let resp  = await fetch(`${url}/login`, {
+    await fetch(`/signIn`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -23,8 +23,7 @@ export async function loginUser(userData, token){
         },
         body: JSON.stringify(userData)
     })
-    let session = await resp.json()
-    authOperations.createSession(session)
+    window.location.href = "catalog"
 }
 
 export async function logoutUser(token){

@@ -59,11 +59,11 @@ async function onLogin(){
     $('.success-action').on($.modal.BEFORE_CLOSE, () => {
         $('#success-message').text('')
     })
-    let token = $('meta[name="csrf-token"]').attr('content')
+    let token = $('input[name="_token"]').val()
     await loginUser(
         {
-            email: $('#email').val(),
-            password: $('#password').val()
+            email: $('#email-login').val(),
+            password: $('#password-login').val()
         },
         token
     )

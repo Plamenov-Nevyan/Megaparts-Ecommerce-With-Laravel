@@ -427,7 +427,7 @@ h1 {
   gap: 0.5em;
   flex-wrap: wrap;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 620px) {
   .quick-search-section .filters-wrapper .labels-container {
     display: none;
   }
@@ -1226,4 +1226,83 @@ h1 {
 }
 .site-footer .footer-article:last-child .article-bottom .heading-two h3:last-child {
   color: #A3A7AB;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  /* Modal Content/Box */
+}
+.modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  /* The Close Button */
+}
+.modal .modal-content .create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+.modal .modal-content .create-form fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  position: relative;
+}
+.modal .modal-content .create-form fieldset input {
+  padding: 0.6em 0.5em;
+  border: none;
+  border-bottom: 2px solid #008AEE;
+  outline: none;
+}
+.modal .modal-content .create-form fieldset input.error {
+  border: 2px solid red;
+  border-radius: 0.6em;
+}
+.modal .modal-content .create-form fieldset .error-message {
+  display: none;
+  color: red;
+}
+.modal .modal-content .create-form fieldset input:focus + label,
+.modal .modal-content .create-form fieldset input + label.static {
+  transform: translateY(-1em);
+}
+.modal .modal-content .create-form fieldset textarea:focus + label,
+.modal .modal-content .create-form fieldset textarea + label.static {
+  transform: translateY(-2em);
+}
+.modal .modal-content .create-form fieldset label {
+  padding: 0 0.4em;
+  position: absolute;
+  left: 0.5em;
+  top: 1em;
+  transition: transform 200ms ease;
+  pointer-events: none;
+}
+.modal .modal-content .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: auto;
+}
+.modal .modal-content .close:hover,
+.modal .modal-content .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }/*# sourceMappingURL=combined.css.map */

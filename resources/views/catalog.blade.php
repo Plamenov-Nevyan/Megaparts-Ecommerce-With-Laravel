@@ -85,6 +85,12 @@
                             <span>02 437 32 48</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#" id="create-offer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                            <span>НАПРАВИ ОБЯВА</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -156,6 +162,42 @@
                 </div>
         </div>
     </header>
-    <h1>HELLOOOOOOOOOOOOOOOOOOO</h1>
+    <section class="products">
+
+    </section>
+    <div id="create-offer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form class="create-form">
+                @csrf
+                <fieldset class="create-input-field">
+                    <input type="text" class="create-data-input" id="name" name="name"/>
+                    <label for="name">Product name</label>
+                    <span class="error-span" id="name-error"></span>
+                </fieldset>
+                <fieldset class="create-input-field">
+                    <textarea class="create-data-input" id="description" name="description"/></textarea>
+                    <label for="description">Product description</label>
+                    <span class="error-span" id="description-error"></span>
+                </fieldset>
+                <fieldset class="create-input-field">
+                    <input type="text" class="create-data-input" id="price" name="price"/>
+                    <label for="price">Product price</label>
+                    <span class="error-span" id="price-error"></span>
+                </fieldset>
+                <fieldset class="create-input-field">
+                    <input type="number" class="create-data-input" id="quantityAvailable" name="quantityAvailable"/>
+                    <label for="quantityAvailable">Product quantity</label>
+                    <span class="error-span" id="quantityAvailable-error"></span>
+                </fieldset>
+                <fieldset class="create-input-field">
+                    <input type="text" class="create-data-input" id="image" name="image"/>
+                    <label for="image">Product image</label>
+                    <span class="error-span" id="image-error"></span>
+                </fieldset>
+                <button>Create</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

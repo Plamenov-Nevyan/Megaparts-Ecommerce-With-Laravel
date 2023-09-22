@@ -3,6 +3,7 @@ $breakpoints: (
     sm: 350px,
     lsm: 470px,
     md: 576px,
+    mdl: 620px,
     lg: 768px,
     xl: 992px,
     xxl: 1200px
@@ -28,6 +29,12 @@ $breakpoints: (
 
 @mixin md {
     @media only screen and (max-width: map-get($breakpoints, 'md')) {
+        @content;
+    }
+}
+
+@mixin mdl {
+    @media only screen and (max-width: map-get($breakpoints, 'mdl')) {
         @content;
     }
 }

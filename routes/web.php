@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
@@ -16,9 +17,11 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 
 Route::view('/', "home");
 Route::group(['middleware' => 'web'], function(){
-    Route::post('/logout', [UserAuthController::class, 'logoutUser'])->name('logout');
+    Route::post('/logout', [UserAuthController::class, 'logoutUser'])->middleware('auth');
+    Route::post('/signUp', [UserAuthController::class,'registerUser'])->middleware('guest');
+    Route::post('/signIn', [UserAuthController::class,'loginUser'])->middleware('guest');
+    Route::post('/createProduct', [ProductController::class, 'createNewProduct'])->middleware('auth');
 });
-Route::post('/signUp', [UserAuthController::class,'registerUser'])->middleware('guest');
 Route::get('/login', [RegisteredUserController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [RegisteredUserController::class, 'showRegisterForm'])->name('register');
 Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');
