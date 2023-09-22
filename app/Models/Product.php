@@ -14,11 +14,12 @@ class Product extends Model
         'description',
         'price',
         'quantityAvailable',
-        'image'
+        'image',
+        'owner'
     ];
 
     public function owner()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'owner');
     }
 }
