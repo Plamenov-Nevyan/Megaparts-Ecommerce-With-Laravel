@@ -1334,4 +1334,105 @@ h1 {
 }
 .products .card .card-bottom h6 {
   color: #33BB5A;
+}
+
+.details-section {
+  width: 98vw;
+  height: 100vh;
+  display: flex;
+  margin-top: 1em;
+  gap: 2em;
+  padding: 0.5em;
+}
+.details-section .left-part, .details-section .right-part {
+  flex: 1 1 50%;
+}
+.details-section .left-part {
+  border-radius: 3.8em;
+  overflow: hidden;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.details-section .left-part img {
+  width: 100%;
+  height: auto;
+}
+.details-section .right-part {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.details-section .right-part .text-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  padding: 0.5em;
+}
+.details-section .right-part .text-top h1 {
+  flex: 1 1 100%;
+  text-align: center;
+}
+.details-section .right-part .text-top h4 {
+  flex: 1 1 33%;
+  text-align: center;
+}
+.details-section .right-part .description {
+  max-width: 90%;
+  padding: 0.5em;
+}
+.details-section .right-part .description p {
+  width: 100%;
+  text-align: justify;
+}
+.details-section .right-part .owner-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  padding: 0.5em;
+}
+.details-section .right-part .owner-info h4 {
+  flex: 1 1 33%;
+  text-align: center;
+}
+.details-section .right-part #add-to-cart-btn {
+  max-width: 20%;
+  padding: 0.5em 1em;
+  margin-left: auto;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }/*# sourceMappingURL=combined.css.map */

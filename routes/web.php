@@ -21,11 +21,15 @@ Route::group(['middleware' => 'web'], function(){
     Route::post('/signUp', [UserAuthController::class,'registerUser'])->middleware('guest');
     Route::post('/signIn', [UserAuthController::class,'loginUser'])->middleware('guest');
     Route::post('/createProduct', [ProductController::class, 'createNewProduct'])->middleware('auth');
+    Route::post('/getProductDetails', [ProductController::class, 'getOneProduct'])->middleware('auth');
     Route::get('/getAllProducts', [ProductController::class, 'getProducts'])->middleware('auth');
+    Route::get('/getSession', [UserAuthController::class, 'getSession'])->middleware('auth');
 });
+Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');
 Route::get('/login', [RegisteredUserController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [RegisteredUserController::class, 'showRegisterForm'])->name('register');
-Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');
+Route::get('/productDetails', [ProductController::class, 'showDetails'])->name('details');
+Route::get('/dashboard', [RegisteredUserController::class, 'showDashboard'])->name('adminDashboard');
 // Route::post('/ulogin', [UserAuthController::class, 'registerUser']);
 
 require __DIR__.'/auth.php';

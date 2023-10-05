@@ -60,4 +60,9 @@ class UserAuthController extends Controller
         $response->header('Content-Type: application/json');
         return $response;
     }
+
+    public function getSession(){
+        $userSessionData = session()->all();
+        return response()->json($userSessionData);
+    }
 }

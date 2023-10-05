@@ -51,4 +51,8 @@ class RegisteredUserController extends Controller
     public function showCatalog(){
         return view('catalog');
     }
+
+    public function showDashboard(){
+        return view('adminDashboard');
+    }
 }

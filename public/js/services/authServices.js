@@ -23,7 +23,7 @@ export async function loginUser(userData, token){
         },
         body: JSON.stringify(userData)
     })
-    window.location.href = "catalog"
+    await redirectToCatalogPage()
 }
 
 export async function logoutUser(token){
@@ -34,17 +34,36 @@ export async function logoutUser(token){
             "X-CSRF-TOKEN": token
         },
     })
-   window.location.href = 'login'
+   await redirectToLoginPage()
+}
+
+export async function getUserSession(){
+    let resp = await fetch('/getSession')
+    let session = await resp.json()
+    return session
 }
 
 export async function redirectToLoginPage(){
-    await fetch('/login')
+    // await fetch('/login')
+    window.location.href = '/login'
 }
 
 export async function redirectToRegisterPage(){
-    await fetch('/register')
+    // await fetch('/register')
+    window.location.href = '/register'
 }
 
 export async function redirectToCatalogPage(){
-    await fetch('/catalog')
+    // await fetch('/catalog')
+    window.location.href = '/catalog'
 }
+
+export async function redirectToDetails(){
+//    await fetch('/productDetails')
+    window.location.href = '/productDetails'
+}
+
+export async function redirectToDashboard(){
+    // await fetch('/dashboard')
+    window.location.href = '/dashboard'
+ }

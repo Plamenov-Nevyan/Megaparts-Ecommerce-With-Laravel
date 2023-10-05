@@ -17,3 +17,16 @@ export const getProducts = async () => {
     let products = await resp.json()
     return products
 }
+
+export const getProductDetails = async (productId, csrfToken) => {
+    let resp = await fetch('/getProductDetails', {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+        body : JSON.stringify({productId})
+    })
+    let productData = await resp.json()
+    return productData
+}

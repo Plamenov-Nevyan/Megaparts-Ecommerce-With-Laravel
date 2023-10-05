@@ -30,4 +30,14 @@ class ProductController extends Controller {
         ->get();
         return response()->json($products);
     }
+
+    public function getOneProduct(Request $request){
+        $productId = intval($request->input('productId'));
+        $product = Product::with('owner')->find($productId);
+        return response()->json($product);
+    }
+
+    public function showDetails(){
+        return view('details');
+    }
 }
