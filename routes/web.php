@@ -23,6 +23,7 @@ Route::group(['middleware' => 'web'], function(){
     Route::post('/createProduct', [ProductController::class, 'createNewProduct'])->middleware('auth');
     Route::post('/getProductDetails', [ProductController::class, 'getOneProduct'])->middleware('auth');
     Route::get('/getAllProducts', [ProductController::class, 'getProducts'])->middleware('auth');
+    Route::get('/getAllUsers', [UserAuthController::class, 'getAllUsers'])->middleware('auth');
     Route::get('/getSession', [UserAuthController::class, 'getSession'])->middleware('auth');
 });
 Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');

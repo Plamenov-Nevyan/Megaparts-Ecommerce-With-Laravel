@@ -43,6 +43,17 @@ export async function getUserSession(){
     return session
 }
 
+export async function getAllUsers(csrfToken){
+    let resp = await fetch('/getAllUsers', {
+        method: 'GET',
+        headers: {
+            "X-CSRF-TOKEN": csrfToken,
+        },
+    })
+    let users = await resp.json()
+    return users
+}
+
 export async function redirectToLoginPage(){
     // await fetch('/login')
     window.location.href = '/login'

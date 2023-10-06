@@ -65,4 +65,11 @@ class UserAuthController extends Controller
         $userSessionData = session()->all();
         return response()->json($userSessionData);
     }
+
+    public function getAllUsers(){
+        $users = User::whereNotIn('userRole', ['admin', 'owner'])
+        ->orderBy('created_at', 'desc')
+        ->get();
+        return response()->json($users);
+    }
 }
