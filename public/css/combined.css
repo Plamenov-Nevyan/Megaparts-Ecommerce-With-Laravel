@@ -1251,47 +1251,61 @@ h1 {
   width: 80%; /* Could be more or less, depending on screen size */
   /* The Close Button */
 }
-.modal .modal-content .create-form {
+.modal .modal-content .create-form, .modal .modal-content .edit-form {
   display: flex;
   flex-direction: column;
   gap: 2em;
 }
-.modal .modal-content .create-form fieldset {
+.modal .modal-content .create-form fieldset, .modal .modal-content .edit-form fieldset {
   border: none;
   display: flex;
   flex-direction: column;
   gap: 0.3em;
   position: relative;
 }
-.modal .modal-content .create-form fieldset input {
+.modal .modal-content .create-form fieldset input, .modal .modal-content .edit-form fieldset input {
   padding: 0.6em 0.5em;
   border: none;
   border-bottom: 2px solid #008AEE;
   outline: none;
 }
-.modal .modal-content .create-form fieldset input.error {
+.modal .modal-content .create-form fieldset input.error, .modal .modal-content .edit-form fieldset input.error {
   border: 2px solid red;
   border-radius: 0.6em;
 }
-.modal .modal-content .create-form fieldset .error-message {
+.modal .modal-content .create-form fieldset .error-message, .modal .modal-content .edit-form fieldset .error-message {
   display: none;
   color: red;
 }
 .modal .modal-content .create-form fieldset input:focus + label,
-.modal .modal-content .create-form fieldset input + label.static {
+.modal .modal-content .create-form fieldset input + label.static, .modal .modal-content .edit-form fieldset input:focus + label,
+.modal .modal-content .edit-form fieldset input + label.static {
   transform: translateY(-1em);
 }
 .modal .modal-content .create-form fieldset textarea:focus + label,
-.modal .modal-content .create-form fieldset textarea + label.static {
+.modal .modal-content .create-form fieldset textarea + label.static, .modal .modal-content .edit-form fieldset textarea:focus + label,
+.modal .modal-content .edit-form fieldset textarea + label.static {
   transform: translateY(-2em);
 }
-.modal .modal-content .create-form fieldset label {
+.modal .modal-content .create-form fieldset label, .modal .modal-content .edit-form fieldset label {
   padding: 0 0.4em;
   position: absolute;
   left: 0.5em;
   top: 1em;
   transition: transform 200ms ease;
   pointer-events: none;
+}
+.modal .modal-content .edit-form .edit-input-field input:focus + label,
+.modal .modal-content .edit-form .edit-input-field input + label.static {
+  transform: translateY(-2em);
+}
+.modal .modal-content .edit-form .edit-select-field {
+  display: flex;
+  flex-direction: column;
+  max-width: 20%;
+}
+.modal .modal-content .edit-form .edit-select-field label {
+  position: initial;
 }
 .modal .modal-content .close {
   color: #aaa;

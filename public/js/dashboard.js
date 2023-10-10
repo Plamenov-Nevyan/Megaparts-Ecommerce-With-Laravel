@@ -1,11 +1,12 @@
-import { getAllUsers, sendWarning, banUser } from "./services/authServices.js";
+import { getAllUsers, sendWarning, banUser, getUserProfile, getUserSession, editUserProfile } from "./services/authServices.js";
 import { getProducts } from "./services/productServices.js";
 
 $(document).ready(async function(){
  let csrfToken = $('meta[name="csrf-token"]').attr('content')
- let [users, products] = await Promise.all([
+ let [users, products, userSession] = await Promise.all([
     getAllUsers(csrfToken),
-    getProducts()
+    getProducts(),
+    getUserSession()
  ])
  $('.users').find('h3').text(`Users: ${users.length} registered`)
  $('.products').find('h3').text(`Products: ${products.length} created`)
@@ -18,49 +19,9 @@ $(document).ready(async function(){
    let productAccordion = createProductAccordion(product)
    $('.products').append(productAccordion)
  })
- $('.accordion-header').each(function(){
-   $(this).on('click', function(){
-      if($(this).hasClass('hidden')){
-         let body =  $(this).parent().find('.accordion-body')
-         $(body).slideDown('fast').css({'display': 'flex'})
-         $(this).find('.show-more').remove()
-         $(this).append(createArrowUpSvg())
-         $(this).removeClass('hidden')
-         $(this).addClass('open') 
-         attachHideEvent($(this).parent().attr('id'))
-      }else {
-         let body =  $(this).parent().find('.accordion-body')
-         $(body).slideUp('fast').css({'display': 'none'})
-         $(this).find('.hide').remove()
-         $(this).append(createArrowDownSvg())
-         $(this).removeClass('open')
-         $(this).addClass('hidden')
-         attachShowEvent($(this).parent().attr('id'))
-      }
-   })
- })
 
- function attachHideEvent(accordionId){
-   $(`#${accordionId}`).find('.accordion-header').on('click', () => {
-      let body =  $(this).parent().find('.accordion-body')
-      $(body).slideUp('fast').css({'display': 'none'})
-      $(this).find('.hide').remove()
-      $(this).append(createArrowDownSvg())
-      $(this).removeClass('open')
-      $(this).addClass('hidden')
-   })
- }
+ attachAccordionInteractivity()
 
- function attachShowEvent(accordionId){
-   $(`#${accordionId}`).find('.accoridon-header').on('click', () => {
-      let body =  $(this).parent().find('.accordion-body')
-      $(body).slideDown('fast').css({'display': 'flex'})
-      $(this).find('.show-more').remove()
-      $(this).append(createArrowUpSvg())
-      $(this).removeClass('hidden')
-      $(this).addClass('open') 
-   })
- }
    $('.send-warning-btn').each(function(){
       $(this).on('click', () => {
          $('#admin-modal').css({'display' : 'block'})
@@ -95,6 +56,39 @@ $(document).ready(async function(){
             }, 2000)
          })
          $('.cancel-ban').on('click', () => closeModal())
+      })
+   })
+
+   $('.edit-user-btn').each(function(){
+      $(this).on('click', () => {
+         $('#admin-modal').css({'display' : 'block'})
+         $('.modal-content').empty()
+         $('.modal-content').append(`<span class="close">&times;</span>`)
+         $('.close').on('click', () => closeModal())
+         let parentAccordionId = $(this).parent().parent().parent().attr('id')
+         appendEditUserFormToModal($(this).parent().attr('id'), csrfToken)
+         .then(() => {
+            initFloatingLabels()
+            $('.edit-user-btn').on('click', async function(e){
+               e.preventDefault()
+               let data = {
+                  username: $('#username').val(),
+                  email: $('#email').val(),
+                  phone: $('#phone').val(),
+                  instagram_link: $('#instagram-link').val(),
+                  twitter_link: $('#twitter-link').val(),
+                  facebook_link: $('#facebook-link').val(),
+                  userRole: $('#userRole').val(),
+               }
+               let newUserData = await editUserProfile(data, $(this).attr('id'), csrfToken)
+               $('.modal-content').empty()
+               $('.modal-content').append('<h3>User profile was edited successfully !</h3>')
+               setTimeout(() => {
+                  closeModal()
+               }, 2000)
+               replaceAccordionWhenEdited(parentAccordionId, newUserData, 'user')
+            })
+         })
       })
    })
 })
@@ -201,6 +195,151 @@ function generateUniqueAccordionId(userOrProductId) {
 `)
  }
 
+ async function appendEditUserFormToModal(userId, csrfToken, currentUserRole){
+   let user = await getUserProfile(userId, csrfToken)
+   let userEditForm = $(`
+      <form class="edit-form">
+         <fieldset class="edit-input-field">
+            <input type="text" class="edit-data-input" id="username" name="username" value="${user.username}"/>
+            <label for="username">Username</label>
+            <span class="error-span" id="username-error"></span>
+         </fieldset>
+         <fieldset class="edit-input-field">
+            <input type="text" class="edit-data-input" id="email" name="email" value="${user.email}"/>
+            <label for="email">Email</label>
+            <span class="error-span" id="email-error"></span>
+         </fieldset>
+         <fieldset class="edit-input-field">
+            <input type="number" class="edit-data-input" id="phone" name="phone" value="${user.phone}"/>
+            <label for="phone">Phone Number</label>
+            <span class="error-span" id="phone-error"></span>
+         </fieldset>
+         <fieldset class="edit-input-field">
+            <input type="text" class="edit-data-input" id="instagram-link" name="instagram-link" value="${user.instagram_link}"/>
+            <label for="instagram-link">Instagram Link</label>
+            <span class="error-span" id="instagram-error"></span>
+         </fieldset>
+         <fieldset class="edit-input-field">
+            <input type="text" class="edit-data-input" id="twitter-link" name="twitter-link" value="${user.twitter_link}"/>
+            <label for="twitter-link">Twitter Link</label>
+            <span class="error-span" id="twitter-error"></span>
+         </fieldset>
+         <fieldset class="edit-input-field">
+            <input type="text" class="edit-data-input" id="facebook-link" name="facebook-link" value="${user.facebook_link}"/>
+            <label for="facebook-link">Facebook Link</label>
+            <span class="error-span" id="facebook-error"></span>
+         </fieldset>
+         <fieldset class="edit-select-field">
+            <label for="userRole">User Role</label>
+            <select class="edit-data-select" id="userRole" name="userRole">
+               ${user.userRole === 'user' ? `<option value="user" selected>User</user>` : `<option value="user">User</user>`}
+               ${user.userRole === 'moderator' ? `<option value="moderator" selected>Moderator</user>` : `<option value="moderator">Moderator</user>`}
+               ${currentUserRole === 'owner' && user.userRole === 'admin'
+                ? `<option value="admin" selected>Admin</option>` 
+                : `<option value="admin">Admin</user>`
+               }
+            </select>
+            <span class="error-span" id="role-error"></span>
+         </fieldset>
+         <button class="edit-user-btn" id="${userId}">Edit</button>
+      </form>
+   `) 
+   $('#admin-modal').find('.modal-content').append(userEditForm)
+ }
+
  function closeModal(){
    $('#admin-modal').css({'display':'none'})
  }
+
+ function initFloatingLabels(){
+   // By using the transform: scaleY rule for class static in the css, here we assign the class to a label after we check if it's
+   // corresponding input have text in it or not using the change event
+   $('.edit-input-field').each(function(){
+       let field = $(this)
+       let input = field.find('input')
+       let label = field.find('label')
+       input.val().length > 0 ? label.addClass('static') : label.removeClass('static')
+       input.change(function(){
+           input.val().length > 0 ? label.addClass('static') : label.removeClass('static')
+       })
+   })
+}
+
+function replaceAccordionWhenEdited(accordionId, newData, forProductOrUser){
+   let newAccordionId = generateUniqueAccordionId()
+   if(forProductOrUser === 'user'){
+      let newAccordion = $(`
+         <div id="${newAccordionId}" class="accordion">
+            <div class="accordion-header hidden">
+               <h4>User: ${newData.username}<h4>
+               <h4>ID: ${newData.id}</h4>
+               <svg class="show-more" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/></svg>
+            </div>
+            <div class="accordion-body">
+               <div class="info">
+                  <h5>Registered on: ${newData.created_at.split('T')[0]}</h5>
+                  <h5>Email: ${newData.email}</h5>
+                  <h5>Facebook: ${newData.facebook_link === "" ? 'N/A' : newData.facebook_link}</h5> 
+                  <h5>Instagram: ${newData.instagram_link === "" ? 'N/A' : newData.instagram_link}</h5> 
+                  <h5>Twitter: ${newData.twitter_link === "" ? 'N/A' : newData.twitter_link}</h5> 
+                  <h5>Phone number: ${newData.phone}</h5>
+               </div>
+               <div class="actions ${newData.username}" id=${newData.id}>
+                  <button class="ban-btn">Ban</button>
+                  <button class="delete-user-btn">Delete</button>
+                  <button class="edit-user-btn">Edit</button>
+                  <button class="send-warning-btn">Send Warning</button>
+               </div>
+            </div>
+         </div>
+      `)
+      $(`#${accordionId}`).replaceWith(newAccordion)
+      attachAccordionInteractivity()
+   }
+}
+
+function attachAccordionInteractivity(){
+   $('.accordion-header').each(function(){
+      $(this).on('click', function(){
+         if($(this).hasClass('hidden')){
+            let body =  $(this).parent().find('.accordion-body')
+            $(body).slideDown('fast').css({'display': 'flex'})
+            $(this).find('.show-more').remove()
+            $(this).append(createArrowUpSvg())
+            $(this).removeClass('hidden')
+            $(this).addClass('open') 
+            attachHideEvent($(this).parent().attr('id'))
+         }else {
+            let body =  $(this).parent().find('.accordion-body')
+            $(body).slideUp('fast').css({'display': 'none'})
+            $(this).find('.hide').remove()
+            $(this).append(createArrowDownSvg())
+            $(this).removeClass('open')
+            $(this).addClass('hidden')
+            attachShowEvent($(this).parent().attr('id'))
+         }
+      })
+    })
+   
+    function attachHideEvent(accordionId){
+      $(`#${accordionId}`).find('.accordion-header').on('click', () => {
+         let body =  $(this).parent().find('.accordion-body')
+         $(body).slideUp('fast').css({'display': 'none'})
+         $(this).find('.hide').remove()
+         $(this).append(createArrowDownSvg())
+         $(this).removeClass('open')
+         $(this).addClass('hidden')
+      })
+    }
+   
+    function attachShowEvent(accordionId){
+      $(`#${accordionId}`).find('.accoridon-header').on('click', () => {
+         let body =  $(this).parent().find('.accordion-body')
+         $(body).slideDown('fast').css({'display': 'flex'})
+         $(this).find('.show-more').remove()
+         $(this).append(createArrowUpSvg())
+         $(this).removeClass('hidden')
+         $(this).addClass('open') 
+      })
+    }
+}

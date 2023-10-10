@@ -76,6 +76,31 @@ export async function banUser(userId, csrfToken){
     })
 }
 
+export async function getUserProfile(userId, csrfToken){
+    let resp = await fetch (`/user_profile?userId=${userId}`, {
+        method : 'GET',
+        headers : {
+            'X-CSRF-TOKEN': csrfToken
+        },
+    })
+
+    let user = await resp.json()
+    return user
+}
+
+export async function editUserProfile(data, userId, csrfToken){
+    let resp = await fetch(`/update_user_profile?userId=${userId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type':'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify(data)
+     })
+    let newData = await resp.json()
+    return newData 
+}
+
 export async function redirectToLoginPage(){
     // await fetch('/login')
     window.location.href = '/login'

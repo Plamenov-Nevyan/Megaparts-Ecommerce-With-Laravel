@@ -95,4 +95,19 @@ class UserAuthController extends Controller
             'banned' => true,
         ]);
     }
+
+    public function getUserProfile(Request $request){
+        $userId = $request->query('userId');
+        $user = User::find(intval($userId));
+        return response()->json($user);
+    }
+
+    public function updateUserProfile(Request $request){
+        $userId = $request->query('userId');
+        $updateData = $request->json()->all();
+        $user = User::find(intval($userId));
+        $user->update($updateData);
+        $user->refresh();
+        return response()->json($user);
+    }
 }

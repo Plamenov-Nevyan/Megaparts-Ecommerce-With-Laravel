@@ -27,6 +27,8 @@ Route::group(['middleware' => 'web'], function(){
     Route::get('/getAllProducts', [ProductController::class, 'getProducts'])->middleware('auth');
     Route::get('/getAllUsers', [UserAuthController::class, 'getAllUsers'])->middleware('auth');
     Route::get('/getSession', [UserAuthController::class, 'getSession'])->middleware('auth');
+    Route::get('/user_profile', [UserAuthController::class, 'getUserProfile'])->middleware('auth');
+    Route::put('/update_user_profile', [UserAuthController::class, 'updateUserProfile'])->middleware('auth');
 });
 Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');
 Route::get('/login', [RegisteredUserController::class, 'showLoginForm'])->name('login');

@@ -1276,7 +1276,7 @@ h1 {
         padding: 20px;
         border: 1px solid #888;
         width: 80%; /* Could be more or less, depending on screen size */
-        .create-form {
+        .create-form, .edit-form {
             display: flex;
             flex-direction: column;
             gap: 2em;
@@ -1315,6 +1315,23 @@ h1 {
                     top: 1em;
                     transition: transform 200ms ease;
                     pointer-events: none;
+                }
+            }
+        }
+
+        .edit-form {
+            .edit-input-field {
+                input:focus + label,
+                input + label.static {
+                    transform: translateY(-2em);
+                }
+            }
+            .edit-select-field {
+                display: flex;
+                flex-direction: column;
+                max-width: 20%;
+                label {
+                    position: initial;
                 }
             }
         }
