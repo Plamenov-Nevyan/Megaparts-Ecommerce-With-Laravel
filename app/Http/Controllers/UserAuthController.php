@@ -110,4 +110,10 @@ class UserAuthController extends Controller
         $user->refresh();
         return response()->json($user);
     }
+
+    public function deleteUserProfile(Request $request){
+        $userId = $request->query('userId');
+        $user = User::find(intval($userId));
+        $user->delete();
+    }
 }

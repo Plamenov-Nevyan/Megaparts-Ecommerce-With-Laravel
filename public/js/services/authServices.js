@@ -101,6 +101,15 @@ export async function editUserProfile(data, userId, csrfToken){
     return newData 
 }
 
+export async function deleteUserProfile(userId, csrfToken){
+     await fetch(`/delete_user_profile?userId=${userId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        },
+     })
+}
+
 export async function redirectToLoginPage(){
     // await fetch('/login')
     window.location.href = '/login'

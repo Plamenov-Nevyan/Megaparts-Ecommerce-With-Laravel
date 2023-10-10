@@ -1,4 +1,4 @@
-import { getAllUsers, sendWarning, banUser, getUserProfile, getUserSession, editUserProfile } from "./services/authServices.js";
+import { getAllUsers, sendWarning, banUser, getUserProfile, getUserSession, editUserProfile, deleteUserProfile } from "./services/authServices.js";
 import { getProducts } from "./services/productServices.js";
 
 $(document).ready(async function(){
@@ -19,78 +19,8 @@ $(document).ready(async function(){
    let productAccordion = createProductAccordion(product)
    $('.products').append(productAccordion)
  })
-
  attachAccordionInteractivity()
-
-   $('.send-warning-btn').each(function(){
-      $(this).on('click', () => {
-         $('#admin-modal').css({'display' : 'block'})
-         $('.modal-content').empty()
-         $('.modal-content').append(`<span class="close">&times;</span>`)
-         $('.close').on('click', () => closeModal())
-         appendWarningMessageAreaToModal($(this).parent().attr('id'), $(this).parent()[0].classList[1])
-         $('.send-message-btn').on('click', function(){
-            sendWarning($('#warning-message').val(), csrfToken, $(this).attr('id'))
-            $('.modal-content').empty()
-            $('.modal-content').append('<h3>Warning message sent successfully !</h3>')
-            setTimeout(() => {
-               closeModal()
-            }, 2000)
-         })
-      })
-   })
-
-   $('.ban-btn').each(function(){
-      $(this).on('click', () => {
-         $('#admin-modal').css({'display' : 'block'})
-         $('.modal-content').empty()
-         $('.modal-content').append(`<span class="close">&times;</span>`)
-         $('.close').on('click', () => closeModal())
-         appendBanConfirmToModal($(this).parent().attr('id'), $(this).parent()[0].classList[1])
-         $('.confirm-ban').on('click', function(){
-            banUser($(this).attr('id'), csrfToken)
-            $('.modal-content').empty()
-            $('.modal-content').append('<h3>User was banned successfully !</h3>')
-            setTimeout(() => {
-               closeModal()
-            }, 2000)
-         })
-         $('.cancel-ban').on('click', () => closeModal())
-      })
-   })
-
-   $('.edit-user-btn').each(function(){
-      $(this).on('click', () => {
-         $('#admin-modal').css({'display' : 'block'})
-         $('.modal-content').empty()
-         $('.modal-content').append(`<span class="close">&times;</span>`)
-         $('.close').on('click', () => closeModal())
-         let parentAccordionId = $(this).parent().parent().parent().attr('id')
-         appendEditUserFormToModal($(this).parent().attr('id'), csrfToken)
-         .then(() => {
-            initFloatingLabels()
-            $('.edit-user-btn').on('click', async function(e){
-               e.preventDefault()
-               let data = {
-                  username: $('#username').val(),
-                  email: $('#email').val(),
-                  phone: $('#phone').val(),
-                  instagram_link: $('#instagram-link').val(),
-                  twitter_link: $('#twitter-link').val(),
-                  facebook_link: $('#facebook-link').val(),
-                  userRole: $('#userRole').val(),
-               }
-               let newUserData = await editUserProfile(data, $(this).attr('id'), csrfToken)
-               $('.modal-content').empty()
-               $('.modal-content').append('<h3>User profile was edited successfully !</h3>')
-               setTimeout(() => {
-                  closeModal()
-               }, 2000)
-               replaceAccordionWhenEdited(parentAccordionId, newUserData, 'user')
-            })
-         })
-      })
-   })
+ attachAccordionButtonsFunctionality()
 })
 
 
@@ -195,6 +125,16 @@ function generateUniqueAccordionId(userOrProductId) {
 `)
  }
 
+ function appendDeleteUserConfirmToModal(userId, username){
+   $('#admin-modal').find('.modal-content').append(`
+   <div class="confirm-wrapper">
+      <h3>Are you sure you want to permanently delete ${username} with ID : ${userId} ?</h3>
+      <button class="confirm-delete" id="${userId}">Confirm</button>
+      <button class="cancel-delete">Cancel</button>
+   </div>
+`)
+ }
+
  async function appendEditUserFormToModal(userId, csrfToken, currentUserRole){
    let user = await getUserProfile(userId, csrfToken)
    let userEditForm = $(`
@@ -265,8 +205,9 @@ function generateUniqueAccordionId(userOrProductId) {
    })
 }
 
-function replaceAccordionWhenEdited(accordionId, newData, forProductOrUser){
+async function replaceAccordionWhenEdited(accordionId, newData, forProductOrUser){
    let newAccordionId = generateUniqueAccordionId()
+   let currentUserSession = await getUserSession()
    if(forProductOrUser === 'user'){
       let newAccordion = $(`
          <div id="${newAccordionId}" class="accordion">
@@ -295,10 +236,18 @@ function replaceAccordionWhenEdited(accordionId, newData, forProductOrUser){
       `)
       $(`#${accordionId}`).replaceWith(newAccordion)
       attachAccordionInteractivity()
+      attachAccordionButtonsFunctionality(currentUserSession.userRole)
    }
 }
 
+function removeAccordionOnDelete(accordionId){
+   $(`#${accordionId}`).remove()
+}
+
 function attachAccordionInteractivity(){
+   $('.accordion-header').each(function(){
+      $(this).off()
+   })
    $('.accordion-header').each(function(){
       $(this).on('click', function(){
          if($(this).hasClass('hidden')){
@@ -342,4 +291,98 @@ function attachAccordionInteractivity(){
          $(this).addClass('open') 
       })
     }
+}
+
+function attachAccordionButtonsFunctionality(currentUserRole){
+   let csrfToken = $('meta[name="csrf-token"]').attr('content')
+   $('.send-warning-btn').each(function(){
+      $(this).on('click', () => {
+         $('#admin-modal').css({'display' : 'block'})
+         $('.modal-content').empty()
+         $('.modal-content').append(`<span class="close">&times;</span>`)
+         $('.close').on('click', () => closeModal())
+         appendWarningMessageAreaToModal($(this).parent().attr('id'), $(this).parent()[0].classList[1])
+         $('.send-message-btn').on('click', function(){
+            sendWarning($('#warning-message').val(), csrfToken, $(this).attr('id'))
+            $('.modal-content').empty()
+            $('.modal-content').append('<h3>Warning message sent successfully !</h3>')
+            setTimeout(() => {
+               closeModal()
+            }, 2000)
+         })
+      })
+   })
+
+   $('.ban-btn').each(function(){
+      $(this).on('click', () => {
+         $('#admin-modal').css({'display' : 'block'})
+         $('.modal-content').empty()
+         $('.modal-content').append(`<span class="close">&times;</span>`)
+         $('.close').on('click', () => closeModal())
+         appendBanConfirmToModal($(this).parent().attr('id'), $(this).parent()[0].classList[1])
+         $('.confirm-ban').on('click', function(){
+            banUser($(this).attr('id'), csrfToken)
+            $('.modal-content').empty()
+            $('.modal-content').append('<h3>User was banned successfully !</h3>')
+            setTimeout(() => {
+               closeModal()
+            }, 2000)
+         })
+         $('.cancel-ban').on('click', () => closeModal())
+      })
+   })
+
+   $('.edit-user-btn').each(function(){
+      $(this).on('click', () => {
+         $('#admin-modal').css({'display' : 'block'})
+         $('.modal-content').empty()
+         $('.modal-content').append(`<span class="close">&times;</span>`)
+         $('.close').on('click', () => closeModal())
+         let parentAccordionId = $(this).parent().parent().parent().attr('id')
+         appendEditUserFormToModal($(this).parent().attr('id'), csrfToken, currentUserRole)
+         .then(() => {
+            initFloatingLabels()
+            $('.edit-user-btn').on('click', async function(e){
+               e.preventDefault()
+               let data = {
+                  username: $('#username').val(),
+                  email: $('#email').val(),
+                  phone: $('#phone').val(),
+                  instagram_link: $('#instagram-link').val(),
+                  twitter_link: $('#twitter-link').val(),
+                  facebook_link: $('#facebook-link').val(),
+                  userRole: $('#userRole').val(),
+               }
+               let newUserData = await editUserProfile(data, $(this).attr('id'), csrfToken)
+               $('.modal-content').empty()
+               $('.modal-content').append('<h3>User profile was edited successfully !</h3>')
+               setTimeout(() => {
+                  closeModal()
+               }, 2000)
+               await replaceAccordionWhenEdited(parentAccordionId, newUserData, 'user')
+            })
+         })
+      })
+   })
+   
+   $('.delete-user-btn').each(function(){
+      $(this).on('click', function(){
+         $('#admin-modal').css({'display' : 'block'})
+         $('.modal-content').empty()
+         $('.modal-content').append(`<span class="close">&times;</span>`)
+         $('.close').on('click', () => closeModal())
+         let parentAccordionId = $(this).parent().parent().parent().attr('id')
+         appendDeleteUserConfirmToModal($(this).parent().attr('id'), $(this).parent()[0].classList[1])
+         $('.confirm-delete').on('click', async function(){
+            await deleteUserProfile($(this).attr('id'), csrfToken)
+            $('.modal-content').empty()
+            $('.modal-content').append('<h3>User profile was deleted successfully !</h3>')
+            setTimeout(() => {
+               closeModal()
+            }, 2000)
+            removeAccordionOnDelete(parentAccordionId)
+         })
+         $('.cancel-delete').on('click', () => closeModal())
+      })
+   })
 }
