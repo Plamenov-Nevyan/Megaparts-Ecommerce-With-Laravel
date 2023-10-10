@@ -25,7 +25,12 @@ class UserAuthController extends Controller
             'instagram_link' => $instagramLink,
             'facebook_link' => $facebookLink 
         ]);
-        session(['userId' => $user->id, 'userRole' => $user->userRole]);
+        session([
+            'userId' => $user->id, 
+            'userRole' => $user->userRole, 
+            'banned' => $user->banned, 
+            'warning' => $user->warning
+        ]);
         $response = json_encode(['url' => 'catalog']);
         return $response;
     }
@@ -41,6 +46,8 @@ class UserAuthController extends Controller
             $user = Auth::user();
             $request->session()->put('userId', $user->id);
             $request->session()->put('userRole', $user->userRole);
+            $request->session()->put('banned', $user->banned);
+            $request->session()->put('warning', $user->warning);
             $request->session()->regenerate();
             // return redirect()->route('catalog')
             //     ->withSuccess('You have successfully logged in!');
@@ -71,5 +78,21 @@ class UserAuthController extends Controller
         ->orderBy('created_at', 'desc')
         ->get();
         return response()->json($users);
+    }
+
+    public function sendWarningMessage(Request $request){
+        $userId = $request->json('userId');
+        $user = User::find(intval($userId));
+        $user->update([
+            'warning' => $request->json('message'),
+        ]);
+    }
+
+    public function banUser(Request $request){
+        $userId = $request->json('userId');
+        $user = User::find(intval($userId));
+        $user->update([
+            'banned' => true,
+        ]);
     }
 }

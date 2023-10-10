@@ -1,4 +1,4 @@
-import { getAllUsers } from "./services/authServices.js";
+import { getAllUsers, sendWarning, banUser } from "./services/authServices.js";
 import { getProducts } from "./services/productServices.js";
 
 $(document).ready(async function(){
@@ -11,6 +11,7 @@ $(document).ready(async function(){
  $('.products').find('h3').text(`Products: ${products.length} created`)
  users.forEach(user => {
    let userAccordion = createUserAccordion(user)
+   $(userAccordion).find('.actions')
    $('.users').append(userAccordion)
  })
  products.forEach(product => {
@@ -60,6 +61,42 @@ $(document).ready(async function(){
       $(this).addClass('open') 
    })
  }
+   $('.send-warning-btn').each(function(){
+      $(this).on('click', () => {
+         $('#admin-modal').css({'display' : 'block'})
+         $('.modal-content').empty()
+         $('.modal-content').append(`<span class="close">&times;</span>`)
+         $('.close').on('click', () => closeModal())
+         appendWarningMessageAreaToModal($(this).parent().attr('id'), $(this).parent()[0].classList[1])
+         $('.send-message-btn').on('click', function(){
+            sendWarning($('#warning-message').val(), csrfToken, $(this).attr('id'))
+            $('.modal-content').empty()
+            $('.modal-content').append('<h3>Warning message sent successfully !</h3>')
+            setTimeout(() => {
+               closeModal()
+            }, 2000)
+         })
+      })
+   })
+
+   $('.ban-btn').each(function(){
+      $(this).on('click', () => {
+         $('#admin-modal').css({'display' : 'block'})
+         $('.modal-content').empty()
+         $('.modal-content').append(`<span class="close">&times;</span>`)
+         $('.close').on('click', () => closeModal())
+         appendBanConfirmToModal($(this).parent().attr('id'), $(this).parent()[0].classList[1])
+         $('.confirm-ban').on('click', function(){
+            banUser($(this).attr('id'), csrfToken)
+            $('.modal-content').empty()
+            $('.modal-content').append('<h3>User was banned successfully !</h3>')
+            setTimeout(() => {
+               closeModal()
+            }, 2000)
+         })
+         $('.cancel-ban').on('click', () => closeModal())
+      })
+   })
 })
 
 
@@ -81,11 +118,11 @@ function createUserAccordion(user){
                <h5>Twitter: ${user.twitter_link === "" ? 'N/A' : user.twitter_link}</h5> 
                <h5>Phone number: ${user.phone}</h5>
             </div>
-            <div class="actions">
-               <button>Ban</button>
-               <button>Delete</button>
-               <button>Edit</button>
-               <button>Send Warning</button>
+            <div class="actions ${user.username}" id=${user.id}>
+               <button class="ban-btn">Ban</button>
+               <button class="delete-user-btn">Delete</button>
+               <button class="edit-user-btn">Edit</button>
+               <button class="send-warning-btn">Send Warning</button>
             </div>
          </div>
       </div>
@@ -116,7 +153,7 @@ function createProductAccordion(product){
                <h5>Owner ID: ${product.owner.id}</h5> 
                <h5>Owner username: ${product.owner.username}</h5>
             </div>
-            <div class="actions">
+            <div class="actions" id=${product.id}>
                <button>Delete</button>
                <button>Edit</button>
             </div>
@@ -142,4 +179,28 @@ function generateUniqueAccordionId(userOrProductId) {
    const random = Math.floor(Math.random() * 10000) * userOrProductId;
    const accordionId = `${timestamp}${random}`;
    return accordionId;
+ }
+
+ function appendWarningMessageAreaToModal(userId, username){
+   $('#admin-modal').find('.modal-content').append(`
+      <div class="message-wrapper">
+      <h3>Send a warning to ${username} with ID : ${userId}</h3>
+       <textarea name="warning-message" id="warning-message"></textarea>
+       <button class="send-message-btn" id="${userId}">Send</button>
+      </div>
+   `)
+ }
+
+ function appendBanConfirmToModal(userId, username){
+   $('#admin-modal').find('.modal-content').append(`
+   <div class="confirm-wrapper">
+   <h3>Are you sure you want to ban ${username} with ID : ${userId}</h3>
+    <button class="confirm-ban" id="${userId}">Confirm</button>
+    <button class="cancel-ban">Cancel</button>
+   </div>
+`)
+ }
+
+ function closeModal(){
+   $('#admin-modal').css({'display':'none'})
  }

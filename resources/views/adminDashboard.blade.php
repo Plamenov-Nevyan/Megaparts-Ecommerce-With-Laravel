@@ -19,5 +19,39 @@
             <h3>Products</h3>
         </div>
     </section>
+    <div id="admin-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <!-- <form class="create-form">
+                @csrf
+                <fieldset class="create-input-field">
+                    <input type="text" class="create-data-input" id="name" name="name"/>
+                    <label for="name">Product name</label>
+                    <span class="error-span" id="name-error"></span>
+                </fieldset>
+                <fieldset class="create-input-field">
+                    <textarea class="create-data-input" id="description" name="description"/></textarea>
+                    <label for="description">Product description</label>
+                    <span class="error-span" id="description-error"></span>
+                </fieldset>
+                <fieldset class="create-input-field">
+                    <input type="text" class="create-data-input" id="price" name="price"/>
+                    <label for="price">Product price</label>
+                    <span class="error-span" id="price-error"></span>
+                </fieldset>
+                <fieldset class="create-input-field">
+                    <input type="number" class="create-data-input" id="quantityAvailable" name="quantityAvailable"/>
+                    <label for="quantityAvailable">Product quantity</label>
+                    <span class="error-span" id="quantityAvailable-error"></span>
+                </fieldset>
+                <fieldset class="create-input-field">
+                    <input type="text" class="create-data-input" id="image" name="image"/>
+                    <label for="image">Product image</label>
+                    <span class="error-span" id="image-error"></span>
+                </fieldset>
+                <button>Create</button>
+            </form> -->
+        </div>
+    </div>
 </body>
 </html>

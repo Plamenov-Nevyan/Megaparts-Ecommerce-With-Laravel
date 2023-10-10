@@ -54,6 +54,28 @@ export async function getAllUsers(csrfToken){
     return users
 }
 
+export async function sendWarning(warningMessage, csrfToken, userId){
+    await fetch('/sendWarning', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({message : warningMessage, userId})
+    })
+}
+
+export async function banUser(userId, csrfToken){
+    await fetch('/ban', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({'userId': userId})
+    })
+}
+
 export async function redirectToLoginPage(){
     // await fetch('/login')
     window.location.href = '/login'

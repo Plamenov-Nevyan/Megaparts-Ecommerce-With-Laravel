@@ -20,6 +20,8 @@ Route::group(['middleware' => 'web'], function(){
     Route::post('/logout', [UserAuthController::class, 'logoutUser'])->middleware('auth');
     Route::post('/signUp', [UserAuthController::class,'registerUser'])->middleware('guest');
     Route::post('/signIn', [UserAuthController::class,'loginUser'])->middleware('guest');
+    Route::post('/sendWarning', [UserAuthController::class, 'sendWarningMessage'])->middleware('auth');
+    Route::post('/ban', [UserAuthController::class, 'banUser'])->middleware('auth');
     Route::post('/createProduct', [ProductController::class, 'createNewProduct'])->middleware('auth');
     Route::post('/getProductDetails', [ProductController::class, 'getOneProduct'])->middleware('auth');
     Route::get('/getAllProducts', [ProductController::class, 'getProducts'])->middleware('auth');
