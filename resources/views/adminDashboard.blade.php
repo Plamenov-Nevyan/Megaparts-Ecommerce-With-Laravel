@@ -13,10 +13,10 @@
 <body>
     <section class="admin-section">
         <div class="users">
-            <h3>Users</h3>
+            <h3>Потребители</h3>
         </div>
         <div class="products">
-            <h3>Products</h3>
+            <h3>Продукти</h3>
         </div>
     </section>
     <div id="admin-modal" class="modal">

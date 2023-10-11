@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
@@ -24,6 +25,7 @@ Route::group(['middleware' => 'web'], function(){
     Route::post('/ban', [UserAuthController::class, 'banUser'])->middleware('auth');
     Route::post('/createProduct', [ProductController::class, 'createNewProduct'])->middleware('auth');
     Route::post('/getProductDetails', [ProductController::class, 'getOneProduct'])->middleware('auth');
+    Route::post('/add_to_cart', [ShoppingCartController::class, 'addToCart'])->middleware('auth');
     Route::get('/getAllProducts', [ProductController::class, 'getProducts'])->middleware('auth');
     Route::get('/getAllUsers', [UserAuthController::class, 'getAllUsers'])->middleware('auth');
     Route::get('/getSession', [UserAuthController::class, 'getSession'])->middleware('auth');

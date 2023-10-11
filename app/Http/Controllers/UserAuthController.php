@@ -63,9 +63,6 @@ class UserAuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        $response = json_encode(['url' => 'login']);
-        $response->header('Content-Type: application/json');
-        return $response;
     }
 
     public function getSession(){

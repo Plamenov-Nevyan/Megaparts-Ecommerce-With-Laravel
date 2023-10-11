@@ -1,5 +1,6 @@
 import { getProductDetails, editProductData, deleteProduct} from "./services/productServices.js";
 import { getUserSession, redirectToCatalogPage } from "./services/authServices.js";
+import {addToCart} from "./services/shoppingCartServices.js"
 
 $(document).ready(async function(){
     await loadProductDetails()
@@ -72,6 +73,48 @@ async function loadProductDetails(){
                 closeActionsModal()
             })
         })
+    }else {
+        $('.action-btns').append(`
+            <button id="cart-slider">Добави в кошницата</button>
+        `)
+
+        $('#cart-slider').on('click', function(){
+            if(session.banned){
+                return alert(
+                    `Съжаляваме, но вие имате бан в този момент. Моля, свържете се със администратор за установяване на причината.`
+                )
+            }
+            $('#slider-modal').css({'display': 'block'})
+            $('#slider').slider({
+                animate: 'fast',
+                classes: {
+                  "ui-slider": "highlight"
+                },
+                max: Number(product.quantityAvailable),
+                min: 1,
+                orientation: "horizontal",
+                value: 1,
+                slide: function(e, ui){} 
+              })
+              $('#slider').on('slide', function(e, ui){
+                  $('#quantity-span').text(`${ui.value} броя`)
+                  $('#price-calc-span').text(`${product.price * ui.value} лв.`)
+              })
+              $('.close').on('click', () => closeSliderModal())
+              $('#add-to-cart').on('click', function(){
+                let quantity = $('#quantity-span').text().trim().split(' ')[0]
+                 addToCart(session.userId, product.id, quantity, csrfToken)
+                 .then(() => {
+                    $('.modal-content-slider').empty()
+                    $('.modal-content-slider').append(`
+                        <h3>Успешно добавени ${quantity} броя от ${product.name}.</h3>
+                    `)
+                    setTimeout(() => {
+                        closeSliderModal()
+                    }, 2000)
+                 })
+              })
+        })
     }
 }
 
@@ -105,32 +148,32 @@ async function appendEditProductFormToModal(product){
        <form class="edit-form">
           <fieldset class="edit-input-field">
              <input type="text" class="edit-data-input" id="name" name="name" value="${product.name}"/>
-             <label for="name">Name:</label>
+             <label for="name">Име:</label>
              <span class="error-span" id="name-error"></span>
           </fieldset>
           <fieldset class="edit-input-field">
              <textarea class="edit-data-input" id="description" name="description">
               ${product.description}
              </textarea>
-             <label for="description">Description:</label>
+             <label for="description">Описание:</label>
              <span class="error-span" id="description-error"></span>
           </fieldset>
           <fieldset class="edit-input-field">
              <input type="number" class="edit-data-input" id="price" name="price" value="${product.price}"/>
-             <label for="price">Price:</label>
+             <label for="price">Цена(за 1бр.):</label>
              <span class="error-span" id="price-error"></span>
           </fieldset>
           <fieldset class="edit-input-field">
              <input type="number" class="edit-data-input" id="quantityAvailable" name="quantityAvailable" value="${product.quantityAvailable}"/>
-             <label for="quantityAvailable">Quantity:</label>
+             <label for="quantityAvailable">Налично количество:</label>
              <span class="error-span" id="quantityAvailable-error"></span>
           </fieldset>
           <fieldset class="edit-input-field">
              <input type="text" class="edit-data-input" id="image" name="image" value="${product.image}"/>
-             <label for="image">Image:</label>
+             <label for="image">Снимка:</label>
              <span class="error-span" id="image-error"></span>
           </fieldset>
-          <button class="edit-product-btn" id="${product.id}">Edit</button>
+          <button class="edit-product-btn" id="${product.id}">Редактирай</button>
        </form>
     `) 
     $('#actions-modal').find('.modal-content').append(productEditForm)
@@ -139,9 +182,9 @@ async function appendEditProductFormToModal(product){
   function appendDeleteProductConfirmToModal(productId, name){
     $('#actions-modal').find('.modal-content').append(`
     <div class="confirm-wrapper">
-       <h3>Are you sure you want to permanently delete product: ${name} ?</h3>
-       <button class="confirm-delete" id="${productId}">Confirm</button>
-       <button class="cancel-delete">Cancel</button>
+       <h3>Сигурни ли сте, че искате да изтриете обявата за вашия продукт - ${name} ?</h3>
+       <button class="confirm-delete" id="${productId}">Да</button>
+       <button class="cancel-delete">Не</button>
     </div>
  `)
   }
@@ -172,3 +215,6 @@ async function appendEditProductFormToModal(product){
     $('#actions-modal').css({'display':'none'})
   }
  
+  function closeSliderModal(){
+    $('#slider-modal').css({'display':'none'})
+  }
