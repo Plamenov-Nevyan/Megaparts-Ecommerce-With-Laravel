@@ -43,3 +43,12 @@ export const editProductData = async (updateData, productId, csrfToken) => {
     let updatedProduct = await resp.json()
     return updatedProduct
 }
+
+export const deleteProduct = async (productId, csrfToken) => {
+    await fetch(`/delete_product?productId=${productId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+        },
+    })
+}

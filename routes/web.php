@@ -31,6 +31,7 @@ Route::group(['middleware' => 'web'], function(){
     Route::put('/update_user_profile', [UserAuthController::class, 'updateUserProfile'])->middleware('auth');
     Route::put('/update_product', [ProductController::class, 'updateProduct'])->middleware('auth');
     Route::delete('/delete_user_profile', [UserAuthController::class, 'deleteUserProfile'])->middleware('auth');
+    Route::delete('/delete_product', [ProductController::class, 'deleteProduct'])->middleware('auth');
 });
 Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');
 Route::get('/login', [RegisteredUserController::class, 'showLoginForm'])->name('login');

@@ -49,4 +49,10 @@ class ProductController extends Controller {
         $product->refresh();
         return response()->json($product);
     }
+
+    public function deleteProduct(Request $request){
+        $productId = $request->query('productId');
+        $product = Product::find(intval($productId));
+        $product->delete();
+    }
 }

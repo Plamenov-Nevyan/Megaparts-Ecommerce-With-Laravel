@@ -1,5 +1,5 @@
 import { getAllUsers, sendWarning, banUser, getUserProfile, getUserSession, editUserProfile, deleteUserProfile } from "./services/authServices.js";
-import { getProducts, getProductDetails, editProductData } from "./services/productServices.js";
+import { getProducts, getProductDetails, editProductData, deleteProduct } from "./services/productServices.js";
 
 $(document).ready(async function(){
  let csrfToken = $('meta[name="csrf-token"]').attr('content')
@@ -77,7 +77,7 @@ function createProductAccordion(product){
                <h5>Owner ID: ${product.owner.id}</h5> 
                <h5>Owner username: ${product.owner.username}</h5>
             </div>
-            <div class="actions" id=${product.id}>
+            <div class="actions ${product.name}" id=${product.id}>
                <button class="delete-product">Delete</button>
                <button class="edit-product">Edit</button>
             </div>
@@ -130,6 +130,16 @@ function generateUniqueAccordionId(userOrProductId) {
    <div class="confirm-wrapper">
       <h3>Are you sure you want to permanently delete ${username} with ID : ${userId} ?</h3>
       <button class="confirm-delete" id="${userId}">Confirm</button>
+      <button class="cancel-delete">Cancel</button>
+   </div>
+`)
+ }
+
+ function appendDeleteProductConfirmToModal(productId, name){
+   $('#admin-modal').find('.modal-content').append(`
+   <div class="confirm-wrapper">
+      <h3>Are you sure you want to permanently delete product: ${name} with ID : ${productId} ?</h3>
+      <button class="confirm-delete" id="${productId}">Confirm</button>
       <button class="cancel-delete">Cancel</button>
    </div>
 `)
@@ -493,6 +503,27 @@ function attachAccordionButtonsFunctionality(currentUserRole){
                }, 2000)
                await replaceAccordionWhenEdited(parentAccordionId, newProductData, 'product')
             })
+         })
+      })
+   })
+   
+   $('.delete-product').each(function(){
+      $(this).on('click', function(){
+         $('#admin-modal').css({'display' : 'block'})
+         $('.modal-content').empty()
+         $('.modal-content').append(`<span class="close">&times;</span>`)
+         $('.close').on('click', () => closeModal())
+         let parentAccordionId = $(this).parent().parent().parent().attr('id')
+         appendDeleteProductConfirmToModal($(this).parent().attr('id'), $(this).parent()[0].classList[1])
+         $('.confirm-delete').on('click', async function(){
+            await deleteProduct($(this).attr('id'), csrfToken)
+            $('.modal-content').empty()
+            $('.modal-content').append('<h3>Product was deleted successfully !</h3>')
+            setTimeout(() => {
+               closeModal()
+            }, 2000)
+            removeAccordionOnDelete(parentAccordionId)
+            $('.cancel-delete').on('click', () => closeModal())
          })
       })
    })
