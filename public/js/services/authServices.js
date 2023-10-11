@@ -110,6 +110,15 @@ export async function deleteUserProfile(userId, csrfToken){
      })
 }
 
+export async function removeWarningMessage(userId, csrfToken){
+    await fetch(`/remove_warning?userId=${userId}`, {
+        method: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    })
+}
+
 export async function redirectToLoginPage(){
     // await fetch('/login')
     window.location.href = '/login'

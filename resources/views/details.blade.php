@@ -37,8 +37,14 @@
             <button id="add-to-cart-btn">Add to cart</button> -->
         </div>`
     </article>
+    <div id="actions-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+
+        </div>
+    </div>
     <!-- <div id="slider-modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content-slider">
         <span class="close">&times;</span>
         <p id="quantity-para">Select quantity: <span id="quantity-span"></span></p>
         <div id="slider"></div>

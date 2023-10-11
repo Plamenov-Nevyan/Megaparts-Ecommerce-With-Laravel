@@ -116,4 +116,12 @@ class UserAuthController extends Controller
         $user = User::find(intval($userId));
         $user->delete();
     }
+
+    public function removeWarningMessage(Request $request){
+        $userId = $request->query('userId');
+        $user = User::find(intval($userId));
+        $user->update(['warning' => '']);
+        $user->refresh();
+        session()->put('warning', $user->warning);
+    }
 }
