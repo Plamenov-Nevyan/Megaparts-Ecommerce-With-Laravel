@@ -1,5 +1,5 @@
 import { getAllUsers, sendWarning, banUser, getUserProfile, getUserSession, editUserProfile, deleteUserProfile } from "./services/authServices.js";
-import { getProducts } from "./services/productServices.js";
+import { getProducts, getProductDetails, editProductData } from "./services/productServices.js";
 
 $(document).ready(async function(){
  let csrfToken = $('meta[name="csrf-token"]').attr('content')
@@ -78,8 +78,8 @@ function createProductAccordion(product){
                <h5>Owner username: ${product.owner.username}</h5>
             </div>
             <div class="actions" id=${product.id}>
-               <button>Delete</button>
-               <button>Edit</button>
+               <button class="delete-product">Delete</button>
+               <button class="edit-product">Edit</button>
             </div>
          </div>
       </div>
@@ -187,6 +187,43 @@ function generateUniqueAccordionId(userOrProductId) {
    $('#admin-modal').find('.modal-content').append(userEditForm)
  }
 
+ async function appendEditProductFormToModal(productId, csrfToken){
+   let product = await getProductDetails(productId, csrfToken)
+   let productEditForm = $(`
+      <form class="edit-form">
+         <fieldset class="edit-input-field">
+            <input type="text" class="edit-data-input" id="name" name="name" value="${product.name}"/>
+            <label for="name">Name:</label>
+            <span class="error-span" id="name-error"></span>
+         </fieldset>
+         <fieldset class="edit-input-field">
+            <textarea class="edit-data-input" id="description" name="description">
+             ${product.description}
+            </textarea>
+            <label for="description">Description:</label>
+            <span class="error-span" id="description-error"></span>
+         </fieldset>
+         <fieldset class="edit-input-field">
+            <input type="number" class="edit-data-input" id="price" name="price" value="${product.price}"/>
+            <label for="price">Price:</label>
+            <span class="error-span" id="price-error"></span>
+         </fieldset>
+         <fieldset class="edit-input-field">
+            <input type="number" class="edit-data-input" id="quantityAvailable" name="quantityAvailable" value="${product.quantityAvailable}"/>
+            <label for="quantityAvailable">Quantity:</label>
+            <span class="error-span" id="quantityAvailable-error"></span>
+         </fieldset>
+         <fieldset class="edit-input-field">
+            <input type="text" class="edit-data-input" id="image" name="image" value="${product.image}"/>
+            <label for="image">Image:</label>
+            <span class="error-span" id="image-error"></span>
+         </fieldset>
+         <button class="edit-product-btn" id="${productId}">Edit</button>
+      </form>
+   `) 
+   $('#admin-modal').find('.modal-content').append(productEditForm)
+ }
+
  function closeModal(){
    $('#admin-modal').css({'display':'none'})
  }
@@ -197,19 +234,29 @@ function generateUniqueAccordionId(userOrProductId) {
    $('.edit-input-field').each(function(){
        let field = $(this)
        let input = field.find('input')
+       let textarea = $('#description')
        let label = field.find('label')
-       input.val().length > 0 ? label.addClass('static') : label.removeClass('static')
-       input.change(function(){
-           input.val().length > 0 ? label.addClass('static') : label.removeClass('static')
-       })
+       if(textarea){
+         console.log(textarea)
+         textarea.val().length > 0 ? label.addClass('static') : label.removeClass('static')
+         textarea.change(function(){
+            textarea.val().length > 0 ? label.addClass('static') : label.removeClass('static')
+        })
+       }else{
+         input.val().length > 0 ? label.addClass('static') : label.removeClass('static')
+         input.change(function(){
+             input.val().length > 0 ? label.addClass('static') : label.removeClass('static')
+         })
+       }
    })
 }
 
 async function replaceAccordionWhenEdited(accordionId, newData, forProductOrUser){
    let newAccordionId = generateUniqueAccordionId()
    let currentUserSession = await getUserSession()
+   let newAccordion
    if(forProductOrUser === 'user'){
-      let newAccordion = $(`
+       newAccordion = $(`
          <div id="${newAccordionId}" class="accordion">
             <div class="accordion-header hidden">
                <h4>User: ${newData.username}<h4>
@@ -237,7 +284,40 @@ async function replaceAccordionWhenEdited(accordionId, newData, forProductOrUser
       $(`#${accordionId}`).replaceWith(newAccordion)
       attachAccordionInteractivity()
       attachAccordionButtonsFunctionality(currentUserSession.userRole)
+   }else if(forProductOrUser === 'product'){
+       newAccordion = $(`
+         <div id="${accordionId}" class="accordion">
+            <div class="accordion-header hidden">
+               <h4>Name: ${newData.name}<h4>
+               <h4>ID: ${newData.id}</h4>
+               <svg class="show-more" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/></svg>
+            </div>
+            <div class="accordion-body">
+               <div class="product-image">
+                  <img src="${newData.image}" alt="product-image"/>
+               </div>
+               <div class="info">
+                  <div>
+                     <h5> Description:</h5>
+                     <p>${newData.description}</p>
+                  </div>
+                  <h5>Created on: ${newData.created_at.split('T')[0]}</h5>
+                  <h5>Price: ${newData.price}</h5> 
+                  <h5>Quantity: ${newData.quantityAvailable}</h5> 
+                  <h5>Owner ID: ${newData.owner.id}</h5> 
+                  <h5>Owner username: ${newData.owner.username}</h5>
+               </div>
+               <div class="actions" id=${newData.id}>
+                  <button class="delete-product">Delete</button>
+                  <button class="edit-product">Edit</button>
+               </div>
+            </div>
+         </div>
+   `)
    }
+   $(`#${accordionId}`).replaceWith(newAccordion)
+   attachAccordionInteractivity()
+   attachAccordionButtonsFunctionality(currentUserSession.userRole)
 }
 
 function removeAccordionOnDelete(accordionId){
@@ -383,6 +463,37 @@ function attachAccordionButtonsFunctionality(currentUserRole){
             removeAccordionOnDelete(parentAccordionId)
          })
          $('.cancel-delete').on('click', () => closeModal())
+      })
+   })
+
+   $('.edit-product').each(function(){
+      $(this).on('click', function(){
+         $('#admin-modal').css({'display' : 'block'})
+         $('.modal-content').empty()
+         $('.modal-content').append(`<span class="close">&times;</span>`)
+         $('.close').on('click', () => closeModal())
+         let parentAccordionId = $(this).parent().parent().parent().attr('id')
+         appendEditProductFormToModal($(this).parent().attr('id'), csrfToken)
+         .then(() => {
+            initFloatingLabels()
+            $('.edit-product-btn').on('click', async function(e){
+               e.preventDefault()
+               let data = {
+                  name: $('#name').val(),
+                  description: $('#description').val(),
+                  price: $('#price').val(),
+                  quantityAvailable: $('#quantityAvailable').val(),
+                  image: $('#image').val(),
+               }
+               let newProductData = await editProductData(data, $(this).attr('id'), csrfToken)
+               $('.modal-content').empty()
+               $('.modal-content').append('<h3>Product was edited successfully !</h3>')
+               setTimeout(() => {
+                  closeModal()
+               }, 2000)
+               await replaceAccordionWhenEdited(parentAccordionId, newProductData, 'product')
+            })
+         })
       })
    })
 }

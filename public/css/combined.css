@@ -1299,6 +1299,10 @@ h1 {
 .modal .modal-content .edit-form .edit-input-field input + label.static {
   transform: translateY(-2em);
 }
+.modal .modal-content .edit-form .edit-input-field textarea:focus + label,
+.modal .modal-content .edit-form .edit-input-field textarea + label.static {
+  transform: translateY(-2em);
+}
 .modal .modal-content .edit-form .edit-select-field {
   display: flex;
   flex-direction: column;

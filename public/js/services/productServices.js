@@ -30,3 +30,16 @@ export const getProductDetails = async (productId, csrfToken) => {
     let productData = await resp.json()
     return productData
 }
+
+export const editProductData = async (updateData, productId, csrfToken) => {
+    let resp = await fetch(`/update_product?productId=${productId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type' : 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify(updateData)
+    })
+    let updatedProduct = await resp.json()
+    return updatedProduct
+}

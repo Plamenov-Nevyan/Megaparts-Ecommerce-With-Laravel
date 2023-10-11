@@ -40,4 +40,13 @@ class ProductController extends Controller {
     public function showDetails(){
         return view('details');
     }
+
+    public function updateProduct(Request $request){
+        $productId = $request->query('productId');
+        $updateData = $request->json()->all();
+        $product = Product::with('owner')->find(intval($productId));
+        $product->update($updateData);
+        $product->refresh();
+        return response()->json($product);
+    }
 }

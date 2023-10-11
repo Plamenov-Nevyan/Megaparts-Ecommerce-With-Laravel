@@ -1325,6 +1325,10 @@ h1 {
                 input + label.static {
                     transform: translateY(-2em);
                 }
+                textarea:focus + label,
+                textarea + label.static {
+                    transform: translateY(-2em);
+                }
             }
             .edit-select-field {
                 display: flex;
