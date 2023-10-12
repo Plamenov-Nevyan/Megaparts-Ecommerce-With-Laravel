@@ -35,6 +35,9 @@ Route::group(['middleware' => 'web'], function(){
     Route::put('/remove_warning', [UserAuthController::class, 'removeWarningMessage'])->middleware('auth');
     Route::delete('/delete_user_profile', [UserAuthController::class, 'deleteUserProfile'])->middleware('auth');
     Route::delete('/delete_product', [ProductController::class, 'deleteProduct'])->middleware('auth');
+    Route::get('/check_if_in_cart', [ShoppingCartController::class, 'checkIfInCart'])->middleware('auth');
+    Route::put('/remove_from_cart', [ShoppingCartController::class, 'removeFromCart'])->middleware('auth');
+    Route::get('/get_current_quantity', [ShoppingCartController::class, 'getCurrentQuantity'])->middleware('auth');
 });
 Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');
 Route::get('/login', [RegisteredUserController::class, 'showLoginForm'])->name('login');

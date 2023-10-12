@@ -1,6 +1,6 @@
 import { getProductDetails, editProductData, deleteProduct} from "./services/productServices.js";
 import { getUserSession, redirectToCatalogPage } from "./services/authServices.js";
-import {addToCart} from "./services/shoppingCartServices.js"
+import {addToCart, checkIfProductInCart, removeFromCart, getCurrentQuantity} from "./services/shoppingCartServices.js"
 
 $(document).ready(async function(){
     await loadProductDetails()
@@ -74,47 +74,12 @@ async function loadProductDetails(){
             })
         })
     }else {
-        $('.action-btns').append(`
-            <button id="cart-slider">Добави в кошницата</button>
-        `)
-
-        $('#cart-slider').on('click', function(){
-            if(session.banned){
-                return alert(
-                    `Съжаляваме, но вие имате бан в този момент. Моля, свържете се със администратор за установяване на причината.`
-                )
-            }
-            $('#slider-modal').css({'display': 'block'})
-            $('#slider').slider({
-                animate: 'fast',
-                classes: {
-                  "ui-slider": "highlight"
-                },
-                max: Number(product.quantityAvailable),
-                min: 1,
-                orientation: "horizontal",
-                value: 1,
-                slide: function(e, ui){} 
-              })
-              $('#slider').on('slide', function(e, ui){
-                  $('#quantity-span').text(`${ui.value} броя`)
-                  $('#price-calc-span').text(`${product.price * ui.value} лв.`)
-              })
-              $('.close').on('click', () => closeSliderModal())
-              $('#add-to-cart').on('click', function(){
-                let quantity = $('#quantity-span').text().trim().split(' ')[0]
-                 addToCart(session.userId, product.id, quantity, csrfToken)
-                 .then(() => {
-                    $('.modal-content-slider').empty()
-                    $('.modal-content-slider').append(`
-                        <h3>Успешно добавени ${quantity} броя от ${product.name}.</h3>
-                    `)
-                    setTimeout(() => {
-                        closeSliderModal()
-                    }, 2000)
-                 })
-              })
-        })
+        let isProductInCart = await checkIfProductInCart(product.id, session.userId, csrfToken)
+        if(isProductInCart){
+            initRemoveFromCartBtn(product, session, csrfToken)
+        }else {
+            initAddToCartBtn(product, session, csrfToken)
+        }
     }
 }
 
@@ -217,4 +182,105 @@ async function appendEditProductFormToModal(product){
  
   function closeSliderModal(){
     $('#slider-modal').css({'display':'none'})
+  }
+
+  function initAddToCartBtn(product, session, csrfToken){
+         $('.action-btns').append(`
+            <button id="cart-slider">Добави в кошницата</button>
+        `)
+
+        $('#cart-slider').on('click', function(){
+            if(session.banned){
+                return alert(
+                    `Съжаляваме, но вие имате бан в този момент. Моля, свържете се със администратор за установяване на причината.`
+                )
+            }
+            $('#slider-modal').css({'display': 'block'})
+            $('#slider').slider({
+                animate: 'fast',
+                classes: {
+                  "ui-slider": "highlight"
+                },
+                max: Number(product.quantityAvailable),
+                min: 1,
+                orientation: "horizontal",
+                value: 1,
+                slide: function(e, ui){} 
+              })
+              $('#slider').on('slide', function(e, ui){
+                  $('#quantity-span').text(`${ui.value} броя`)
+                  $('#price-calc-span').text(`${product.price * ui.value} лв.`)
+              })
+              $('.close').on('click', () => closeSliderModal())
+              $('#add-to-cart').text('Добави избраното количество')
+              $('#add-to-cart').on('click', function(){
+                let quantity = $('#quantity-span').text().trim().split(' ')[0]
+                 addToCart(session.userId, product.id, quantity, csrfToken)
+                 .then(() => {
+                    $('.modal-content-slider').empty()
+                    $('.modal-content-slider').append(`
+                        <h3>Успешно добавени ${quantity} броя от ${product.name}.</h3>
+                    `)
+                    setTimeout(() => {
+                        closeSliderModal()
+                    }, 2000)
+                    initRemoveFromCartBtn(product, session, csrfToken)
+                 })
+              })
+        })
+  }
+
+  function initRemoveFromCartBtn(product, session, csrfToken){
+    $('.action-btns').append(`
+        <button id="cart-slider">Изтрий от кошницата</button>
+    `)
+    $('#cart-slider').on('click', async function(){
+        let currentQuantityInCart = await getCurrentQuantity(session.userId, product.id, csrfToken)
+        $('#slider-modal').css({'display': 'block'})
+        $('#slider').slider({
+            animate: 'fast',
+            classes: {
+              "ui-slider": "highlight"
+            },
+            max: Number(currentQuantityInCart),
+            min: 1,
+            orientation: "horizontal",
+            value: Number(currentQuantityInCart),
+            slide: function(e, ui){} 
+          })
+          $('#slider').on('slide', function(e, ui){
+              if(ui.value == currentQuantityInCart){
+                $('#quantity-span').text(`Ще бъдат премахнато всичко от кошницата`)
+              }else {
+                $('#quantity-span').text(`Ще бъдат премахнати ${ui.value} броя`)
+              }
+              $('#price-calc-span').text(`
+                    Стара цена: ${product.price * currentQuantityInCart} лв. \n 
+                    Нова цена: ${product.price * ui.value} лв.
+                `)
+          })
+          $('.close').on('click', () => closeSliderModal())
+          $('#add-to-cart').text('Премахни избраното количество')
+          $('#add-to-cart').on('click', function(){
+            let quantity = $('#quantity-span').text().trim().split(' ')[3]
+             removeFromCart( product.id, session.userId, quantity, csrfToken)
+             .then(() => {
+                $('.modal-content-slider').empty()
+                if(Number(quantity) == currentQuantityInCart){
+                    $('.modal-content-slider').append(`
+                    <h3>Успешно премахнати всички бройки от ${product.name}.</h3>
+                `)
+                }else {
+                    $('.modal-content-slider').append(`
+                    <h3>Успешно премахнати ${quantity} броя от ${product.name}.</h3>
+                `)
+                }
+                setTimeout(() => {
+                    closeSliderModal()
+                }, 2000)
+                initAddToCartBtn(product, session, csrfToken)
+             })
+          })
+    })
+    
   }
