@@ -39,3 +39,9 @@ export const removeFromCart = async (productId, userId, quantity, csrfToken) => 
         })
     })
 }
+
+export async function getCart(userId){
+ let resp = await fetch(`/get_cart?userId=${userId}`)
+ let products = await resp.json()
+ return products
+}

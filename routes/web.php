@@ -38,12 +38,14 @@ Route::group(['middleware' => 'web'], function(){
     Route::get('/check_if_in_cart', [ShoppingCartController::class, 'checkIfInCart'])->middleware('auth');
     Route::put('/remove_from_cart', [ShoppingCartController::class, 'removeFromCart'])->middleware('auth');
     Route::get('/get_current_quantity', [ShoppingCartController::class, 'getCurrentQuantity'])->middleware('auth');
+    Route::get('/get_cart', [ShoppingCartController::class, 'getCart'])->middleware('auth');
 });
 Route::get('/catalog', [RegisteredUserController::class, 'showCatalog'])->name('catalog');
 Route::get('/login', [RegisteredUserController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [RegisteredUserController::class, 'showRegisterForm'])->name('register');
 Route::get('/productDetails', [ProductController::class, 'showDetails'])->name('details');
 Route::get('/dashboard', [RegisteredUserController::class, 'showDashboard'])->name('adminDashboard');
+Route::get('/shoppingCart', [RegisteredUserController::class, 'showShoppingCart'])->name('shoppingCart');
 // Route::post('/ulogin', [UserAuthController::class, 'registerUser']);
 
 require __DIR__.'/auth.php';

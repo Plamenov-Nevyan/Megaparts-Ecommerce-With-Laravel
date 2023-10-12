@@ -55,4 +55,12 @@ class ShoppingCartController extends Controller
         ->first();
         return response()->json(['quantity' => $cartItems['quantity']]);
     }
+
+    public function getCart(Request $request){
+        $userId = $request->query('userId');
+        $cart = ShoppingCart::with('product')
+        ->where('userId', intval($userId))
+        ->get();
+        return response()->json($cart);
+    }
 }

@@ -1,4 +1,4 @@
-import { logoutUser, redirectToDetails, getUserSession, redirectToDashboard, removeWarningMessage} from "./services/authServices.js"
+import { logoutUser, redirectToDetails, getUserSession, redirectToDashboard, removeWarningMessage, redirectToShoppingCart} from "./services/authServices.js"
 import { createValidator } from "./utils/createValidators.js"
 import { createProduct, getProducts } from "./services/productServices.js"
 
@@ -16,6 +16,9 @@ $(document).ready(async function(){
         $(adminBtn).on('click', async function(e){
             e.preventDefault()
             await redirectToDashboard()
+        })
+        $('#shopping-cart-li').on('click', async () => {
+            await redirectToShoppingCart()
         })
         $('.nav-links').append(adminBtn)
         $('#create-offer-li').css({'display' : 'none'})

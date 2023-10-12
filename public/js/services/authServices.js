@@ -143,3 +143,7 @@ export async function redirectToDashboard(){
     // await fetch('/dashboard')
     window.location.href = '/dashboard'
  }
+
+ export async function redirectToShoppingCart(){
+    window.location.href = '/shoppingCart'
+ }
