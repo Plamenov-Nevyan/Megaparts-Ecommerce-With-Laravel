@@ -1,12 +1,15 @@
 import { logoutUser, redirectToDetails, getUserSession, redirectToDashboard, removeWarningMessage, redirectToShoppingCart} from "./services/authServices.js"
 import { createValidator } from "./utils/createValidators.js"
 import { createProduct, getProducts } from "./services/productServices.js"
+import { getCartCount } from "./services/shoppingCartServices.js"
 
 $(document).ready(async function(){
     let [products, userSession] = await Promise.all([
         getProductsForCatalog(),
         getUserSession()
     ])
+    let cartCount = await getCartCount(userSession.userId)
+    $('#shopping-cart-li').find('a').append(`<div class="cart-badge">${cartCount}</div>`)
     if(userSession.warning){
         alert(`Warning from administrator:\n${userSession.warning}`)
         await removeWarningMessage(userSession.userId, $('meta[name="csrf-token"]').attr('content'))

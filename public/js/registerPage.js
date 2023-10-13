@@ -19,7 +19,7 @@ $(document).ready(function(){
 $('#register-btn').click(onRegister)
 })
 
-$('#redirect-login').click(redirectToLoginPage())
+$('#redirect-login').click(() => redirectToLoginPage())
 
 
 function initTacModal(){

@@ -6,14 +6,18 @@ $(document).ready(async function(){
     let cart = await getCart(session.userId)
     let sum = 0
     let products = 0
-    cart.forEach(item => {
-        sum += Number(item.product.price) * item.quantity 
-        products += item.quantity
-        let slide = $(createProductSlide(item.product, item.quantity))
-        $('.slides').append(slide)
-    })
-    $('.total').append(`<h1>Продукти за купуване общо : ${products} броя от ${cart.length} вида продукти</h1>`)
-    $('.total').append(`<h1>Обща цена за всичко: ${sum} лв.</h1>`)
+    if(cart.length > 0){
+        cart.forEach(item => {
+            sum += Number(item.product.price) * item.quantity 
+            products += item.quantity
+            let slide = $(createProductSlide(item.product, item.quantity))
+            $('.slides').append(slide)
+        })
+        $('.total').append(`<h1>Продукти за купуване общо : ${products} броя от ${cart.length} вида продукти</h1>`)
+        $('.total').append(`<h1>Обща цена за всичко: ${sum} лв.</h1>`)
+    }else {
+        $('.shopping-cart-section').append('<h1>Все още нямате добавени продукти.</h1>')
+    }
 })
 
 function createProductSlide(product, quantityInCart){

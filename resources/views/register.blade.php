@@ -17,7 +17,7 @@
         <form class="form-el register-form" action="" method="post">
             @csrf
             <div class="heading">
-                <h2>Sign up and create a new account.</h2>
+                <h2>Създадете вашия профил.</h2>
             </div>
             <div class="social-media">
                 <ul class="media-list">
@@ -30,7 +30,7 @@
                             <div class="label-and-input">
                                 <svg class="close-link-input" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
                                 <input class="media-input" type="text" id="twitter-link" name="twitter-link" />
-                                <label for="twitter-link">Your twitter link...</label>
+                                <label for="twitter-link">Вашия twitter линк...</label>
                             </div>
                         </div>
                         <div class="tooltip" id="tooltip-twitter">
@@ -46,7 +46,7 @@
                             <div class="label-and-input">
                                 <svg class="close-link-input" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
                                 <input class="media-input" type="text" id="instagram-link" name="instagram-link" />
-                                <label for="instagram-link">Your instagram link...</label>
+                                <label for="instagram-link">Вашия instagram линк...</label>
                             </div>
                         </div>
                         <div class="tooltip" id="tooltip-insta">
@@ -62,7 +62,7 @@
                             <div class="label-and-input">
                                 <svg class="close-link-input" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
                                 <input class="media-input" type="text" id="facebook-link" name="facebook-link" />
-                                <label for="facebook-link">Your facebook link...</label>
+                                <label for="facebook-link">Вашия facebook линк...</label>
                             </div>
                         </div>
                         <div class="tooltip" id="tooltip-fb">
@@ -73,34 +73,34 @@
             </div>
             <fieldset class="input-field">
                 <input class="user-data-input" type="text" id="username" name="username"/>
-                <label for="username"> Username: </label>
+                <label for="username"> Потребителско име: </label>
                 <span class="error-message" id="username-error"></span>
             </fieldset>
             <fieldset class="input-field">
                 <input class="user-data-input" type="text" id="email" name="email" />
-                <label for="email"> Email: </label>
+                <label for="email"> Имейл: </label>
                 <span class="error-message" id="email-error"></span>
             </fieldset>
             <fieldset class="input-field">
                 <input class="user-data-input" type="number" id="phone" name="phone"/>
-                <label for="phone"> Phone Number: </label>
+                <label for="phone"> Телефонен номер: </label>
                 <span class="error-message" id="phone-error"></span>
             </fieldset>
             <fieldset class="input-field">
                 <input class="user-data-input" type="password" id="password" name="password"/>
-                <label for="password"> Password: </label>
+                <label for="password"> Парола: </label>
                 <span class="error-message" id="password-error"></span>
             </fieldset>
             <p>
-                Have an account already?
+                Вече имате създаден профил?
                 <a id="redirect-login" href="{{route('login')}}">
-                    Sign in 
+                    Влезте от тук
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
                 </a>
             </p>
-            <button type="button" class="btn" id="register-btn"> Register </button>
+            <button type="button" class="btn" id="register-btn"> Регистрация </button>
             <span class="tac-span">
-                By signing up you are agreeing to our <span class="open-dialog-span">Terms and Conditions</span>
+                Чрез вашата регистрация вие се съгласявате с нашите <span class="open-dialog-span">Правила и Условия</span>
             </span>
         </form>
         <section class="tac-section">

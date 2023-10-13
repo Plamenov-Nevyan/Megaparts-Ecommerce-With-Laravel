@@ -163,7 +163,7 @@ h1 {
   }
 }
 .site-header .header-top .site-nav {
-  max-width: 47%;
+  max-width: 70%;
 }
 @media only screen and (max-width: 350px) {
   .site-header .header-top .site-nav {
@@ -221,25 +221,73 @@ h1 {
 .site-header .header-top .site-nav .nav-links li:nth-child(4) a svg {
   fill: white;
 }
-.site-header .header-top .site-nav .nav-links li:nth-child(5) a {
+.site-header .header-top .site-nav .nav-links li:nth-child(5) #logout-form button {
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(5) #logout-form button a {
   display: flex;
   align-items: center;
-  gap: 0.2em;
+  transition: ease-in-out 200ms;
 }
-.site-header .header-top .site-nav .nav-links li:nth-child(5) a svg {
+.site-header .header-top .site-nav .nav-links li:nth-child(5) #logout-form button a svg {
+  fill: white;
+  transition: ease-in-out 200ms;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(5) #logout-form button a:hover {
+  color: #205AF0;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(5) #logout-form button a:hover svg {
+  fill: #87CA8B;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(7) a {
+  position: relative;
+  transition: ease-in-out 200ms;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(7) a svg {
+  fill: #2CCACA;
+  transition: ease-in-out 200ms;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(7) a .cart-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+  background: darkmagenta;
+  padding: 0.5rem;
+  height: 48%;
+  width: 8%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(7) a:hover {
+  color: #BD5FE9;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(7) a:hover svg {
   fill: white;
 }
-.site-header .header-top .site-nav .nav-links li:nth-child(7) {
-  fill: red;
-}
-.site-header .header-top .site-nav .nav-links li:nth-child(8) {
-  fill: #008AEE;
-}
-.site-header .header-top .site-nav .nav-links li:nth-child(10) svg {
+.site-header .header-top .site-nav .nav-links li:nth-child(9) a svg {
   fill: #5FB865;
 }
-.site-header .header-top .site-nav .nav-links li:nth-child(10) span {
+.site-header .header-top .site-nav .nav-links li:nth-child(9) a span {
   color: white;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(10) a, .site-header .header-top .site-nav .nav-links li:nth-child(11) a {
+  transition: ease-in-out 200ms;
+  color: white;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(10) a svg, .site-header .header-top .site-nav .nav-links li:nth-child(11) a svg {
+  fill: #E59D48;
+  transition: ease-in-out 200ms;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(10) a:hover, .site-header .header-top .site-nav .nav-links li:nth-child(11) a:hover {
+  color: cornflowerblue;
+}
+.site-header .header-top .site-nav .nav-links li:nth-child(10) a:hover svg, .site-header .header-top .site-nav .nav-links li:nth-child(11) a:hover svg {
+  fill: indianred;
 }
 .site-header .header-top .hamburger-btn {
   display: none;

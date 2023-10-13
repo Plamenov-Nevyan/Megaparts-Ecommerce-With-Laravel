@@ -13,8 +13,13 @@ $(document).ready(function(){
     initFloatingLabels()
     clearErrorOnFocus()
 
-$('#login-btn').click(onLogin)
-$('#redirect-register').on('click', redirectToRegisterPage)
+$('#login-btn').on('click', async () => {
+    await onLogin()
+})
+$('#redirect-register').on('click', async (e) => {
+    e.preventDefault()
+    await redirectToRegisterPage()
+})
 })
 
 
@@ -22,15 +27,6 @@ $('#redirect-register').on('click', redirectToRegisterPage)
     // By using the transform: scaleY rule for class static in the css, here we assign the class to a label after we check if it's
     // corresponding input have text in it or not using the change event
     $('.input-field').each(function(){
-        let field = $(this)
-        let input = field.find('input')
-        let label = field.find('label')
-        input.change(function(){
-            input.val().length > 0 ? label.addClass('static') : label.removeClass('static')
-        })
-    })
-
-    $('.media-input').each(function(){
         let field = $(this)
         let input = field.find('input')
         let label = field.find('label')

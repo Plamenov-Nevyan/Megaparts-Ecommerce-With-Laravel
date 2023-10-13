@@ -166,7 +166,7 @@
         </div>
     </header>
     <section class="shopping-cart-section">
-        <h1>Продукти в количката</h1>
+        <h1>Продукти в количката:</h1>
         <div class="slider">
             <div class="slides">
                 
